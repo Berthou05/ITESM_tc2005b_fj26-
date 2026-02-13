@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alexis Berthou | Lab4</title>
+    <link rel="stylesheet" href="index.min.css">
+</head>
+
+<body>
+    <header class="topbar">
+        <div class="brand">
+            <p class="eyebrow">Construcción de Software</p>
+            <h1>Laboratorio 4 - Fundamentos de JavaScript
+</h1>
+        </div>
+        
+        <nav>
+            <ul>
+                <li><a href="#Scripts">Scripts</a></li>
+                <li><a href="#problema">Problema</a></li>
+                <li><a href="#preguntas">Preguntas</a></li>
+                <li><a href="#forma">Forma</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="Scripts" class="panel">
+            <h2>Scripts</h2>
+            <p>Prueba de funcionamiento de scripts</p>
+            
+
+
+        </section>
+
+        <section id="preguntas" class="panel">
+            <h2>Preguntas</h2>
+
+            <ol class="knowledge-list">
+                <li>
+                    <strong>¿Qué diferencias y semejanzas hay entre Java y JavaScript?</strong><br>
+                    Java es un lenguaje de programación orientado a objetos que se ejecuta en la máquina virtual de Java (JVM), 
+                    mientras que JavaScript es un lenguaje de scripting que se ejecuta en el navegador web. Aunque ambos lenguajes 
+                    comparten algunas sintaxis similares, como estructuras de control y operadores, tienen diferencias significativas 
+                    en su ejecución, tipado y uso.
+                </li>
+                <li>
+                    <strong>¿Qué métodos tiene el objeto Date?</strong><br>
+                    1. getDate(): Devuelve el día del mes (1-31) de la fecha especificada.<br>
+                    2. setDate(day): Establece el día del mes para la fecha especificada.<br>
+                    3. toString(): Devuelve una representación de cadena de la fecha.<br>
+                    4. Date.now(): Devuelve el número de milisegundos transcurridos desde el 1 de enero de 1970 00:00:00 UTC.<br>
+                    5. Date.parse(): Analiza una cadena de fecha y devuelve el número de milisegundos desde 
+                    el 1 de enero de 1970.
+                    <a href="https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Date">Fuente</a>
+                </li>
+                <li>
+                    <strong>¿Qué métodos tienen los arreglos? </strong> <br>
+                    1. push(): Agrega uno o más elementos al final de un arreglo y devuelve la nueva longitud del arreglo.<br>
+                    2. pop(): Elimina el último elemento de un arreglo y lo devuelve.<br>
+                    3. shift(): Elimina el primer elemento de un arreglo y lo devuelve.<br>
+                    4. unshift(): Agrega uno o más elementos al inicio de un arreglo y devuelve la nueva longitud del arreglo.<br>
+                    5. map(): Crea un nuevo arreglo con los resultados de la llamada a una función proporcionada 
+                    aplicada a cada elemento del arreglo.
+                    <a href="https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array">Fuente</a>
+                </li>
+                <li>
+                    <strong>¿Cómo se declara una variable con alcance local dentro de una función? </strong><br>
+                    Para declarar una variable con alcance local dentro de una función en JavaScript, se puede utilizar 
+                    la palabra clave "var", "let" o "const".<br> 
+                </li>
+                <li>
+                    <strong>¿Qué implicaciones tiene utilizar variables globales dentro de funciones?</strong><br>
+                    Utilizar variables globales dentro de funciones suele ser mala practica ya que hace que el código sea 
+                    mas fragil y hace mas dificil el mantenimiento.
+                </li>
+            </ol>
+
+        </section>
+                
+        <section id="forma" class="panel form-panel">
+            <h2>Forma</h2>
+                    
+            <form id="colorForm">
+                <label for="colorPicker">Cual es tu color favorito?:</label>
+                <input type="color" id="colorPicker" name="colorPicker" value="#ffffff">
+                <button type="submit">Cambiar color</button>
+            </form>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>Editor HTML utilizado: Visual Studio Code<br>
+            Sitio oficial:
+            <a href="https://code.visualstudio.com/" target="_blank">
+                https://code.visualstudio.com/
+            </a>
+
+            <br>Nota: Algunas partes del codigo fueron inspiradas por ejemplos de internet o ejemplos de IA (ChatGPT / Copilot)
+            
+        </p>
+    </footer>
+
+    <!-- seccion apoyada por internet y la IA para aprender a manipular el DOM y cambiar los colores de la pagina -->
+    <script>
+        const form = document.getElementById('colorForm');
+        const colorPicker = document.getElementById('colorPicker');
+
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+            // Updates the CSS --bg variable to change the background base color
+            document.documentElement.style.setProperty('--bg', colorPicker.value);
+            // Check if the --bg variable is light or dark to update the --text variable for better contrast
+            const bgColor = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim();
+            const isLight = (color) => {
+                const r = parseInt(color.substr(1, 2), 16);
+                const g = parseInt(color.substr(3, 2), 16);
+                const b = parseInt(color.substr(5, 2), 16);
+                // Calculate the relative luminance
+                const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+                return luminance > 0.5;
+            };
+            document.documentElement.style.setProperty('--headerText', isLight(bgColor) ? '#000000' : '#ffffff');
+            
+
+        });
+    </script>
+
+</body>
+</html>
