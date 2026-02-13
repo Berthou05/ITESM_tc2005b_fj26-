@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alexis Berthou | Portfolio</title>
+    <link rel="stylesheet" href="index.min.css">
+</head>
+
+<body>
+    <header class="topbar">
+        <div class="brand">
+            <p class="eyebrow">Personal Portfolio</p>
+            <h1>Laboratorio 3 - HTML con CSS</h1>
+        </div>
+        
+        <nav>
+            <ul>
+                <li><a href="#sobre-mi">Sobre mí</a></li>
+                <li><a href="#proyectos">Proyectos</a></li>
+                <li><a href="#preguntas">Preguntas</a></li>
+                <li><a href="#forma">Forma</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-copy">
+                <p class="eyebrow">ITESM - Ingenieria en Tecnologías Computacionales</p>
+                <h2>Construyo software práctico y disfruto resolver problemas.</h2>
+                <p>
+                    Me gusta el desarrollo web, automatización y aprendizaje automático. Disfruto construir productos que ahorran tiempo y mejoran los flujos de trabajo diarios.
+                </p>
+                <div class="hero-actions">
+                    <a class="btn primary" href="#proyectos">See projects</a>
+                    <a class="btn ghost" href="#sobre-mi">About me</a>
+                </div>
+            </div>
+
+            <figure class="hero-image-wrap">
+                <img class="hero-image" src="GAME_OVER screen.png" alt="Presentation image for portfolio intro">
+            </figure>
+        </section>
+
+        <section id="sobre-mi" class="panel">
+            <h2>Sobre mí</h2>
+            <div class="about-grid">
+                <article>
+                    <h3>Perfil</h3>
+                    <p>
+                        Mi nombre es <strong>Alexis Berthou</strong> soy estudiante de Ingeniería 
+                        en Tecnologías Computacionales. Me apasiona la programación y el desarrollo 
+                        de software, y estoy emocionado por aprender más sobre HTML y otras tecnologías 
+                        web a lo largo de este curso. 
+                    </p>
+                </article>
+
+                <article>
+                    <h3>Intereses</h3>
+                    <p>
+                        Me interesa el desarrollo de aplicaciones web, la inteligencia artificial y el aprendizaje automático.<br>
+                        
+                        Fuera de la escuela, disfruto participar en hackathons para mejorar mis habilidades y colaborar con otros desarrolladores e incluso aprender sobre el proceso de desarrollo de un producto.
+                    </p>
+                </article>
+                
+                <article>
+                    <h3>Hobbies</h3>
+                    <ul>
+                        <li>Toco la guitarra</li>
+                        <li>Me gustan los videojuegos</li>
+                        <li>Me gusta escalar</li>
+                    </ul>
+                </article>
+
+                <article>
+                    <h3>Contacto</h3>
+                    <ul>
+                        <li>Nombre: Alexis Berthou</li>
+                        <li>Matrícula: A01713458</li>
+                        <li>Correo: A01713458@tec.mx</li>
+                    </ul>
+                </article>
+        </section>
+
+        <section id="proyectos" class="panel">
+            <h2>Proyectos</h2>
+
+            <div class="project-grid">
+                <article class="project-card">
+                    <img src = "NoName.png" alt = "Pantalla de game over del RPG" width = "400px">
+                    <div>
+                        <h3>RPG con sistema de pelea battle cards de terminal para la materia de POO con ncurses</h3>
+                        <p>RPG de terminal para mi clase de POO</p>
+                        <a href = "https://github.com/Berthou05/Console-RPG">Link al github</a> <br>
+                    </div>
+                </article>
+                
+                <article class="project-card">
+                    <img src = "Monvi.png" alt = "Imagen del proyecto Monvi" width = "400px">
+                    <div>
+                        <h3>Monvi - ActInSpace 2026</h3>
+                        <p>Proyecto para la competencia ActInSpace 2026</p>
+                        <a href = "https://github.com/Berthou05/ActInSpace_MONVI">Link al github</a> <br>
+                    </div>
+                </article>
+        </section>
+
+        <section id="preguntas" class="panel">
+            <h2>Preguntas</h2>
+
+            <ol class="knowledge-list">
+                <li>
+                    <strong>¿Cuál es la diferencia entre Internet y la World Wide Web?</strong><br>
+                    El Internet es una red global de computadoras interconectadas que permite la comunicación y el intercambio de datos a nivel mundial. La World Wide Web (WWW) es un servicio que se ejecuta sobre Internet y permite acceder a documentos y recursos a través de navegadores web utilizando URLs. En resumen, Internet es la infraestructura, mientras que la WWW es una aplicación que utiliza esa infraestructura para proporcionar acceso a información y servicios en línea.
+                    <a href = "https://www.geeksforgeeks.org/computer-networks/difference-between-internet-and-www/" target = "_blank">Fuente</a>
+                </li>
+            
+                <li>
+                    <strong>¿Cuáles son las partes de un URL?</strong><br>
+                    Un URL (Uniform Resource Locator) consta de varias partes: 
+                    <ul>
+                        <li><strong>Esquema:</strong> Indica el protocolo utilizado para acceder al recurso (por ejemplo, http, https, ftp).</li>
+                        <li><strong>Nombre de host:</strong> Es la dirección del servidor donde se encuentra el recurso (por ejemplo, www.ejemplo.com).</li>
+                        <li><strong>Puerto:</strong> Es un número opcional que especifica el puerto de comunicación en el servidor (por ejemplo, :80 para HTTP).</li>
+                        <li><strong>Ruta:</strong> Es la ubicación específica del recurso en el servidor (por ejemplo, /pagina).</li>
+                        <li><strong>Parámetros/cadena de consulta:</strong> Son opcionales y se utilizan para enviar datos adicionales al servidor (por ejemplo, ?id=123).</li>
+                    </ul>
+                    <a href = "https://www.ibm.com/docs/es/cics-ts/6.x?topic=concepts-components-url" target = "_blank">Fuente</a>
+                </li>
+            
+                <li>
+                    <strong>¿Cuál es el propósito de los métodos HTTP: GET, HEAD, POST, PUT, PATCH, DELETE?</strong><br>
+                    Cada metodo tiene un distinto proposito:
+                    <ul>
+                        <li><strong>GET:</strong> Solicita un recurso específico del servidor. Es utilizado para obtener datos sin modificar el estado del servidor.</li>
+                        <li><strong>HEAD:</strong> Similar a GET, pero solo solicita los encabezados de la respuesta, sin el cuerpo. Es útil para verificar la existencia de un recurso o para obtener metadatos.</li>
+                        <li><strong>POST:</strong> Envía datos al servidor para crear un nuevo recurso o realizar una acción específica. Es comúnmente utilizado en formularios web.</li>
+                        <li><strong>PUT:</strong> Actualiza completamente un recurso existente o crea uno nuevo si no existe. Reemplaza el recurso completo con los datos proporcionados.</li>
+                        <li><strong>PATCH:</strong> Actualiza parcialmente un recurso existente. Solo modifica los campos especificados en la solicitud, en lugar de reemplazar todo el recurso.</li>
+                        <li><strong>DELETE:</strong> Elimina un recurso específico del servidor. Se utiliza para eliminar datos o recursos que ya no son necesarios.</li>
+                    </ul>
+                    <a href = "https://developer.mozilla.org/es/docs/Web/HTTP/Reference/Methods" target = "_blank">Fuente</a>
+                </li>
+            
+                <li>
+                    <strong>¿Qué método HTTP se debe utilizar al enviar un formulario HTML, por ejemplo cuando ingresas tu usuario y contraseña en algún sitio? ¿Por qué?</strong><br>
+                    El método HTTP recomendado para enviar un formulario HTML que contiene información sensible, como un usuario y contraseña, es el método POST. Esto se debe a que el método POST envía los datos en el cuerpo de la solicitud HTTP, lo que proporciona una capa adicional de seguridad en comparación con el método GET, que envía los datos en la URL. Además, el método POST no tiene limitaciones de longitud de datos como el método GET, lo que permite enviar información más extensa sin problemas.
+                    <a href = "https://developer.mozilla.org/es/docs/Web/HTTP/Methods/POST" target = "_blank">Fuente</a>
+                </li>
+            
+                <li>
+                    <strong>¿Qué método HTTP se utiliza cuando a través de un navegador web se accede a una página a través de un URL?</strong><br>
+                    El método HTTP que se utiliza cuando se accede a una página web a través de un URL es el método GET. Este método solicita al servidor que envíe el recurso especificado en el URL, como una página HTML, una imagen o un archivo. El método GET es el más comúnmente utilizado para acceder a páginas web y recuperar información sin modificar el estado del servidor.
+                    <a href = "https://developer.mozilla.org/es/docs/Web/HTTP/Methods/GET" target = "_blank">Fuente</a>
+                </li>
+            
+                <li>
+                    <strong>Un servidor web devuelve una respuesta HTTP con código 200. ¿Qué significa esto? ¿Ocurrió algún error?</strong><br>
+                    El código de estado HTTP 200 significa "OK". Esto indica que la solicitud del cliente fue exitosa y que el servidor ha procesado la solicitud correctamente. No ocurrió ningún error, y el recurso solicitado se ha entregado al cliente sin problemas.
+                    <a href = "https://developer.mozilla.org/es/docs/Web/HTTP/Status" target = "_blank">Fuente</a>
+                </li>
+            
+                <li>
+                    <strong>¿Es responsabilidad del desarrollador corregir un sitio web si un usuario reporta que intentó acceder al sitio y se encontró con un error 404? ¿Por qué?</strong><br>
+                    Sí, es responsabilidad del desarrollador corregir un sitio web si un usuario reporta un error 404. El error 404 indica que la página o recurso solicitado no se encontró en el servidor. Esto puede deberse a varias razones, como enlaces rotos, archivos eliminados o cambios en la estructura del sitio. Corregir estos errores es importante para mejorar la experiencia del usuario, mantener la reputación del sitio web y garantizar que los visitantes puedan acceder a la información que buscan sin frustraciones.
+                </li>
+            
+                <li>
+                    <strong>¿Es responsabilidad del desarrollador corregir un sitio web si un usuario reporta que intentó acceder al sitio y se encontró con un error 500? ¿Por qué?</strong><br>
+                    Sí, es responsabilidad del desarrollador corregir un sitio web si un usuario reporta un error 500. El error 500 indica un problema interno del servidor que impide que la solicitud del cliente se procese correctamente. Esto puede ser causado por errores en el código del servidor, problemas de configuración o fallos en la base de datos. Corregir estos errores es crucial para garantizar que el sitio web funcione correctamente, mantener la confianza de los usuarios y evitar la pérdida de tráfico o clientes potenciales.
+                </li>
+            
+                <li>
+                    <strong>¿Qué significa que un atributo HTML5 esté depreciado o desaprobado (deprecated)? Menciona algunos elementos de HTML 4 que en HTML5 estén desaprobados.</strong><br>
+                    Un atributo HTML5 se considera depreciado o desaprobado (deprecated) cuando ya no se recomienda su uso en el desarrollo web y puede ser eliminado en futuras versiones del estándar. Esto generalmente ocurre porque el atributo ha sido reemplazado por una alternativa más eficiente, segura o semántica. Algunos elementos de HTML 4 que están desaprobados en HTML5 incluyen:
+                </li>
+            
+                <li>
+                    <strong>¿Cuáles son las diferencias principales entre HTML4 y HTML5?</strong><br>
+                    HTML5 introduce nuevas características y mejoras en comparación con HTML4, incluyendo soporte nativo para multimedia (audio y video), nuevos elementos semánticos (como header, footer, article, section), mejor soporte para gráficos y efectos visuales con canvas y SVG, y una API más rica para aplicaciones web, como almacenamiento local, geolocalización y arrastrar y soltar.
+                </li>
+            
+                <li>
+                    <strong>¿Qué componentes de estructura y estilo tiene una tabla?</strong><br>
+                    Una tabla en HTML se compone de varios elementos estructurales y de estilo, incluyendo:
+                    <ul>
+                        <li><strong>table:</strong> El elemento principal que define la tabla.</li>
+                        <li><strong>tr:</strong> Define una fila en la tabla.</li>
+                        <li><strong>th:</strong> Define una celda de encabezado en la tabla, generalmente se muestra en negrita y centrada.</li>
+                        <li><strong>td:</strong> Define una celda de datos en la tabla, donde se coloca el contenido de la tabla.</li>
+                        <li><strong>caption:</strong> Proporciona un título o descripción para la tabla.</li>
+                    </ul>
+
+                </li>
+            
+                <li>
+                    <strong>¿Cuáles son los principales controles de una forma HTML5?</strong><br>
+                    Los principales controles de una forma HTML5 incluyen:
+                    <ul>
+                        <li>email</li>
+                        <li>search</li>
+                        <li>tel</li>
+                        <li>url</li>
+                        <li>number</li>
+                        <li>range</li>
+                        <li>date</li>
+                    </ul>
+                    <a href = "https://developer.mozilla.org/es/docs/Learn_web_development/Extensions/Forms/HTML5_input_types" target = "_blank">Fuente</a>
+                </li>
+            
+                <li>
+                    <strong>¿Qué tanto soporte HTML5 tiene el navegador que utilizas?</strong><br>
+                    Utilizo Firefox como mi navegador principal, y tiene un soporte muy completo para HTML5. En html5test firefox tiene 509 de 555 puntos
+                    <a href = "https://html5test.com/" target = "_blank">HTML5Test</a>
+                </li>
+            
+                <li>
+                    <strong>¿Cuál es el ciclo de vida de los sistemas de información?</strong><br>
+                    El ciclo de vida de los sistemas de información consta de varias fases, que incluyen:
+                    <ul>
+                        <li><strong>Planificación:</strong> En esta fase se identifican las necesidades del negocio, se definen los objetivos del sistema y se realiza un análisis de viabilidad.</li>
+                        <li><strong>Análisis:</strong> Se recopilan y analizan los requisitos del sistema, se crean modelos de datos y se diseñan los procesos de negocio.</li>
+                        <li><strong>Diseño:</strong> Se desarrolla la arquitectura del sistema, se diseñan las interfaces de usuario y se especifican los componentes técnicos.</li>
+                        <li><strong>Implementación:</strong> Se codifica el sistema, se realizan pruebas unitarias y se integran los componentes para crear una versión funcional.</li>
+                        <li><strong>Pruebas:</strong> Se realizan pruebas exhaustivas para identificar y corregir errores, asegurando que el sistema cumpla con los requisitos establecidos.</li>
+                        <li><strong>Despliegue:</strong> El sistema se pone en producción y se hace disponible para los usuarios finales.</li>
+                        <li><strong>Uso y mantenimiento:</strong> Se realizan actualizaciones, correcciones de errores y mejoras continuas para garantizar el buen funcionamiento del sistema a lo largo del tiempo.</li>
+                    </ul>
+                    <a href="https://flanagan.ugr.es/docencia/2005-2006/2/apuntes/ciclovida.pdf" target="_blank">Fuente</a>
+                    <ul>
+
+                </li>
+
+                <li>
+                    <strong>¿Cuál es el ciclo de desarrollo de los sistemas de información?</strong><br>
+                        <ul>
+                            <li>Planificación: determinar el alcance y la finalidad del software</li>
+                            <li>Análisis de los requisitos: define las funciones que debe ejecutar el software</li>
+                            <li>Diseño: decidir los parámetros clave, como la arquitectura, las plataformas y las interfaces de usuario</li>
+                            <li>Desarrollo: crear e implementar el software</li>
+                            <li>Documentación: producir la información para que los usuarios y las partes interesadas puedan utilizar el sistema</li>
+                            <li>Pruebas: verificar que el software cumpla con los requisitos</li>
+                            <li>Implementación: poner el software a disposición de los usuarios</li>
+                            <li>Mantenimiento: solucionar los errores y los puntos vulnerables que se descubran en el sistema</li>
+                        </ul>
+                        <a href = "https://www.redhat.com/es/topics/security/software-development-lifecycle-security" target = "_blank">Fuente</a>
+                </li>
+              </ol>
+
+        </section>
+                
+        <section id="forma" class="panel form-panel">
+            <h2>Forma</h2>
+                    
+            <form id="colorForm">
+                <label for="colorPicker">Cual es tu color favorito?:</label>
+                <input type="color" id="colorPicker" name="colorPicker" value="#ffffff">
+                <button type="submit">Cambiar color</button>
+            </form>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>Editor HTML utilizado: Visual Studio Code<br>
+            Sitio oficial:
+            <a href="https://code.visualstudio.com/" target="_blank">
+                https://code.visualstudio.com/
+            </a>
+
+            <br>Nota: Algunas partes del codigo fueron inspiradas por ejemplos de internet o ejemplos de IA (ChatGPT / Copilot)
+            
+        </p>
+    </footer>
+
+    <!-- seccion apoyada por internet y la IA para aprender a manipular el DOM y cambiar los colores de la pagina -->
+    <script>
+        const form = document.getElementById('colorForm');
+        const colorPicker = document.getElementById('colorPicker');
+
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+            // Updates the CSS --bg variable to change the background base color
+            document.documentElement.style.setProperty('--bg', colorPicker.value);
+            // Check if the --bg variable is light or dark to update the --text variable for better contrast
+            const bgColor = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim();
+            const isLight = (color) => {
+                const r = parseInt(color.substr(1, 2), 16);
+                const g = parseInt(color.substr(3, 2), 16);
+                const b = parseInt(color.substr(5, 2), 16);
+                // Calculate the relative luminance
+                const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+                return luminance > 0.5;
+            };
+            document.documentElement.style.setProperty('--headerText', isLight(bgColor) ? '#000000' : '#ffffff');
+            
+
+        });
+    </script>
+
+</body>
+</html>
