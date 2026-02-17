@@ -5,23 +5,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alexis Berthou | Lab4</title>
-    <link rel="stylesheet" href="index.min.css">
+    <link rel="stylesheet" href="index.css">
 </head>
 
 <body>
     <header class="topbar">
         <div class="brand">
             <p class="eyebrow">Construcción de Software</p>
-            <h1>Laboratorio 4 - Fundamentos de JavaScript
-</h1>
+            <h1>Laboratorio 4 - Fundamentos de JavaScript</h1>
         </div>
         
         <nav>
             <ul>
                 <li><a href="#Scripts">Scripts</a></li>
-                <li><a href="#problema">Problema</a></li>
                 <li><a href="#preguntas">Preguntas</a></li>
-                <li><a href="#forma">Forma</a></li>
+                <li><a href="#problema">Problema</a></li>
             </ul>
         </nav>
     </header>
@@ -29,9 +27,91 @@
     <main>
         <section id="Scripts" class="panel">
             <h2>Scripts</h2>
-            <p>Prueba de funcionamiento de scripts</p>
+            <script src="scripts.js"></script>
+            <h3>Prueba de funcionamiento de scripts</h3>
             
+            <article>    
+                <p>
+                    <strong>Ejercicio 1:</strong><br>
+                    Entrada: un número pedido con un prompt. <br>
+                    Salida: Una tabla con los números del 1 al número dado con sus 
+                    cuadrados y cubos. Utiliza document.write para producir la salida 
+                </p>
+                <button onclick="createTable()" type="button">Generar tabla</button>
+                <div id="tableContainer" class="container"></div>
+            </article>
 
+            <article>
+                <p>
+                    <strong>Ejercicio 2:</strong><br>
+                    Entrada: Usando un prompt se pide el resultado de la suma de 2 números generados de manera aleatoria. <br>
+                    Salida: La página debe indicar si el resultado fue correcto o incorrecto, y el tiempo que tardó el usuario en escribir la respuesta. 
+                </p>
+                <button onclick="sumGame()" type="button">Iniciar quiz</button>
+            </article>
+
+            <article>
+                <p>
+                    <strong>Ejercicio 3:</strong><br>
+                    Función: contador. <br>
+                    Parámetros: Un arreglo de números. <br>
+                    Regresa: La cantidad de números negativos en el arreglo, la cantidad de 0's, y la cantidad de valores mayores a 0 en el arreglo.
+                </p>
+                <button onclick="contador()" type="button">Contar elementos</button>
+                <div id="arrayContainer" class="container"></div> <br>
+                <div id="resultContainer" class="container"></div>
+            </article>
+
+            <article>
+                <p>
+                    <strong>Ejercicio 4:</strong><br>
+                    Función: promedios. <br>
+                    Parámetros: Un arreglo de arreglos de números. <br>
+                    Regresa: Un arreglo con los promedios de cada uno de los renglones de la matriz.
+                </p>
+
+                <button onclick="promedios()" type="button">Calcular promedios</button>
+                <div id="promediosContainer" class="container"></div>
+            </article>
+
+            <article>
+                <p>
+                    <strong>Ejercicio 5:</strong><br>
+                    Función: inverso. <br>  
+                    Parámetros: Un numero. <br>
+                    Regresa: El numero dado pero invertido.
+                </p>
+                <label for="inversoInput">Ingresa un numero:</label>
+                <input type="number" id="inversoInput" name="inversoInput">
+
+                <button onclick="inverso(inversoInput.value)" type="button">Invertir numero</button>
+                <div id="inversoContainer" class="container"></div>
+            </article>
+        </section>
+        <section id="problema" class="panel">
+            <h2>Problema</h2>
+            <p>
+                Un banco quiere mostrar el monto de una cuenta de banco a sus clientes, realizar operaciones de deposito y retiro,
+                y mostrar el historial de transacciones. Para esto se te pide crear un programa en JavaScript que permita a los
+                usuarios interactuar con su cuenta bancaria a traves de una interfaz web. El programa debe incluir las siguientes funcionalidades:
+            </p>
+            <ul>
+                <li>Mostrar el saldo actual de la cuenta.</li>
+                <li>Permitir a los usuarios realizar depositos y retiros, actualizando el saldo en consecuencia.</li>
+                <li>Mantener un historial de transacciones que muestre todas las operaciones realizadas, incluyendo la fecha,
+                    el tipo de transaccion (deposito o retiro) y el monto.</li>
+            </ul>
+
+            <h1>Mi cuenta bancaria</h1>
+            <p>Selecciona que operacion realizar:</p>
+            <p>Saldo actual: <span id="balance">0.00</span></p>
+
+            <button onclick="deposit()" type="button">Depositar</button>
+            <button onclick="withdraw()" type="button">Retirar</button>
+
+            <div id="bankContainer" class="container">
+                <p>Sin transacciones todavia.</p>
+            </div>
 
         </section>
 
@@ -79,16 +159,6 @@
             </ol>
 
         </section>
-                
-        <section id="forma" class="panel form-panel">
-            <h2>Forma</h2>
-                    
-            <form id="colorForm">
-                <label for="colorPicker">Cual es tu color favorito?:</label>
-                <input type="color" id="colorPicker" name="colorPicker" value="#ffffff">
-                <button type="submit">Cambiar color</button>
-            </form>
-        </section>
 
     </main>
 
@@ -103,31 +173,6 @@
             
         </p>
     </footer>
-
-    <!-- seccion apoyada por internet y la IA para aprender a manipular el DOM y cambiar los colores de la pagina -->
-    <script>
-        const form = document.getElementById('colorForm');
-        const colorPicker = document.getElementById('colorPicker');
-
-        form.addEventListener('submit', function (event) {
-            event.preventDefault();
-            // Updates the CSS --bg variable to change the background base color
-            document.documentElement.style.setProperty('--bg', colorPicker.value);
-            // Check if the --bg variable is light or dark to update the --text variable for better contrast
-            const bgColor = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim();
-            const isLight = (color) => {
-                const r = parseInt(color.substr(1, 2), 16);
-                const g = parseInt(color.substr(3, 2), 16);
-                const b = parseInt(color.substr(5, 2), 16);
-                // Calculate the relative luminance
-                const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-                return luminance > 0.5;
-            };
-            document.documentElement.style.setProperty('--headerText', isLight(bgColor) ? '#000000' : '#ffffff');
-            
-
-        });
-    </script>
-
 </body>
 </html>
+

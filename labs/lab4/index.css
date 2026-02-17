@@ -20,6 +20,12 @@
     box-sizing: border-box;
 }
 
+.container {
+    display: grid;
+    place-items: center;
+    gap: 1rem;
+}
+
 html {
     scroll-behavior: smooth;
 }
@@ -279,3 +285,4 @@ footer {
         grid-template-columns: 1fr;
     }
 }
+
