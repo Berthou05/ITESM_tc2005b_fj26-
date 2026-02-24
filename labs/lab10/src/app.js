@@ -1,3 +1,6 @@
+// HTML and css done with the help of copilot, the rest is all me :D
+// Well, I did get help with some things, but credit is due where needed
+
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
@@ -6,12 +9,7 @@ const path = require("path");
 const DATA_DIR = path.join(__dirname, "data");
 const TASKS_FILE = path.join(DATA_DIR, "tasks.txt");
 
-// Asegura que exista la carpeta data/ donde guardamos las tareas.
-async function ensureDataDir() {
-    await fs.promises.mkdir(DATA_DIR, { recursive: true });
-}
-
-// HTML base para las páginas. Usamos Tailwind CDN para estilos rápidos.
+// HTML base para las páginas
 const html_header = `
 <!DOCTYPE html>
 <html lang="en">
@@ -33,7 +31,7 @@ const html_footer = `
 </html>
 `;
 
-// Formulario HTML clásico: envía POST a /new
+// Formulario HTML que envía POST a /new
 const html_form = `
     <header class="mb-5">
         <h1 class="text-3xl font-extrabold tracking-tight text-slate-800 sm:text-4xl">My To-Do List</h1>
@@ -75,6 +73,7 @@ function escapeHtml(str) {
         .replace(/'/g, "&#39;");
 }
 
+// Copilot me ayudo con el formato de fecha y parsing del formulario
 // Formato YYYY-MM-DD a DD/MM/YYYY
 function formatDate(dateString) {
     if (!dateString) return "No date";
@@ -95,6 +94,10 @@ function parseFormUrlEncoded(body) {
     }
 
     return out;
+}
+
+async function ensureDataDir() {
+    await fs.promises.mkdir(DATA_DIR, { recursive: true });
 }
 
 // Lee el archivo tasks.txt y regresa un arreglo de tasks en Json
