@@ -143,17 +143,14 @@ function renderTasksList(tasks) {
     }
 
     const items = tasks
-        .map(
-            (t) => `
+        .map((t) => `
                 <li class="flex items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3">
                     <span class="font-semibold text-slate-800">${escapeHtml(t.title || "")}</span>
                     <span class="shrink-0 rounded-full bg-amber-100 px-3 py-1 text-xs font-bold">
                     ${escapeHtml(formatDate(t.dueDate || ""))}
                     </span>
                 </li>
-            `)
-        .join("");
-
+            `).join("");
     return `<ul class="space-y-3">${items}</ul>`;
 }
 
