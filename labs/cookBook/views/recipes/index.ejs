@@ -1,0 +1,58 @@
+﻿<%- include('../partials/head', { title }) %>
+<%- include('../partials/navbar') %>
+<%- include('../partials/alerts') %>
+
+<main class="container-shell py-10">
+  <section class="mb-6 flex flex-wrap items-center justify-between gap-4">
+    <div>
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-orange-600">Explora</p>
+      <h1 class="mt-1 text-4xl font-extrabold">Recetas</h1>
+    </div>
+
+    <% if (currentUser) { %>
+      <a href="/recipes/new" class="btn-main">Nueva receta</a>
+    <% } %>
+  </section>
+
+  <% if (typeof error !== 'undefined' && error) { %>
+    <div class="flash-error mb-4"><%= error %></div>
+  <% } %>
+
+  <% if (!recipes.length) { %>
+    <div class="panel p-6 text-center text-slate-600">
+      No hay recetas todavia. Crea la primera.
+    </div>
+  <% } %>
+
+  <section class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+    <% recipes.forEach((recipe) => { %>
+      <article class="group overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_18px_50px_-28px_rgba(15,23,42,0.45)] transition hover:-translate-y-1 hover:shadow-[0_24px_60px_-28px_rgba(15,23,42,0.55)]">
+        <div class="relative h-52 overflow-hidden">
+          <img
+            src="<%= recipe.image_url || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=1200&q=80' %>"
+            alt="Imagen de <%= recipe.title %>"
+            class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+            loading="lazy"
+          />
+          <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-900/70 to-transparent px-4 py-3 text-xs text-white">
+            <strong><%= recipe.author_username %></strong> · <%= new Date(recipe.created_at).toLocaleDateString() %>
+          </div>
+        </div>
+
+        <div class="space-y-3 p-5">
+          <h2 class="text-xl font-bold"><%= recipe.title %></h2>
+          <p class="text-sm leading-relaxed text-slate-600"><%= recipe.description || 'Sin descripcion.' %></p>
+
+          <div class="pt-1">
+            <a href="/recipes/<%= recipe.recipe_id %>" class="inline-flex items-center text-sm font-semibold text-orange-700 hover:text-orange-800">
+              Ver detalle
+              <span class="ml-1">→</span>
+            </a>
+          </div>
+        </div>
+      </article>
+    <% }) %>
+  </section>
+</main>
+
+<%- include('../partials/footer') %>

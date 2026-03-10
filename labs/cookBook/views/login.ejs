@@ -1,0 +1,45 @@
+﻿<%- include('partials/head', { title }) %>
+<%- include('partials/navbar') %>
+<%- include('partials/alerts') %>
+
+<main class="container-shell py-12">
+  <section class="mx-auto max-w-md panel p-7 md:p-8">
+    <h1 class="text-center text-3xl font-extrabold">Iniciar sesion</h1>
+    <p class="mt-2 text-center text-sm text-slate-600">Accede para crear y administrar tus recetas.</p>
+
+    <form action="/login" method="POST" class="mt-6 space-y-4">
+      <div>
+        <label class="field-label" for="loginValue">Username o email</label>
+        <input
+          id="loginValue"
+          type="text"
+          name="loginValue"
+          placeholder="usuario o correo"
+          class="field-input"
+          value="<%= formData.loginValue %>"
+          required
+        />
+      </div>
+
+      <div>
+        <label class="field-label" for="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          name="password"
+          placeholder="tu password"
+          class="field-input"
+          required
+        />
+      </div>
+
+      <button type="submit" class="btn-main w-full">Entrar</button>
+    </form>
+
+    <p class="mt-5 text-center text-sm text-slate-600">
+      No tienes cuenta? <a class="font-semibold text-orange-700 hover:text-orange-800" href="/signup">Sign up</a>
+    </p>
+  </section>
+</main>
+
+<%- include('partials/footer') %>

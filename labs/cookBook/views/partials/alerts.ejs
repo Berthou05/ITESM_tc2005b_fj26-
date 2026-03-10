@@ -1,0 +1,12 @@
+﻿<% if (flash || (typeof error !== 'undefined' && error)) { %>
+  <div class="container-shell mt-6">
+    <% if (flash) { %>
+      <% const flashClass = flash.type === 'success' ? 'flash-success' : flash.type === 'warning' ? 'flash-warning' : 'flash-error'; %>
+      <div class="<%= flashClass %>"><%= flash.message %></div>
+    <% } %>
+
+    <% if (typeof error !== 'undefined' && error) { %>
+      <div class="flash-error mt-3"><%= error %></div>
+    <% } %>
+  </div>
+<% } %>

@@ -1,0 +1,70 @@
+﻿<%- include('partials/head', { title }) %>
+<%- include('partials/navbar') %>
+<%- include('partials/alerts') %>
+
+<main class="container-shell py-12">
+  <section class="mx-auto max-w-md panel p-7 md:p-8">
+    <h1 class="text-center text-3xl font-extrabold">Crear cuenta</h1>
+    <p class="mt-2 text-center text-sm text-slate-600">Registrate para guardar tus propias recetas.</p>
+
+    <form action="/signup" method="POST" class="mt-6 space-y-4">
+      <div>
+        <label class="field-label" for="username">Username</label>
+        <input
+          id="username"
+          type="text"
+          name="username"
+          placeholder="ej. chefmario"
+          class="field-input"
+          value="<%= formData.username %>"
+          required
+        />
+      </div>
+
+      <div>
+        <label class="field-label" for="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          name="email"
+          placeholder="ej. correo@dominio.com"
+          class="field-input"
+          value="<%= formData.email %>"
+          required
+        />
+      </div>
+
+      <div>
+        <label class="field-label" for="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          name="password"
+          placeholder="password"
+          class="field-input"
+          required
+        />
+      </div>
+
+      <div>
+        <label class="field-label" for="confirmPassword">Confirm Password</label>
+        <input
+          id="confirmPassword"
+          type="password"
+          name="confirmPassword"
+          placeholder="password"
+          class="field-input"
+          required
+        />
+      </div>
+
+      <button type="submit" class="btn-main w-full">Crear cuenta</button>
+    </form>
+
+    <p class="mt-5 text-center text-sm text-slate-600">
+      Ya tienes cuenta? <a class="font-semibold text-orange-700 hover:text-orange-800" href="/login">Inicia sesion</a>
+    </p>
+  </section>
+</main>
+
+<%- include('partials/footer') %>
