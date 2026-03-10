@@ -5,6 +5,9 @@ const express = require('express');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 
+const csrf = require('csurf');
+const csrfProtection = csrf();
+
 const authRoutes = require('./routes/authRoutes');
 const recipeRoutes = require('./routes/recipeRoutes');
 
@@ -26,6 +29,13 @@ app.use(
     saveUninitialized: false
   })
 );
+
+app.use(csrfProtection);
+
+app.use((req, res, next) => {
+  res.locals.csrfToken = req.csrfToken();
+  next();
+});
 
 app.use((req, res, next) => {
   res.locals.currentUser = req.session.user || null;

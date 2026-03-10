@@ -8,6 +8,7 @@
     <p class="mt-2 text-center text-sm text-slate-600">Registrate para guardar tus propias recetas.</p>
 
     <form action="/signup" method="POST" class="mt-6 space-y-4">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
       <div>
         <label class="field-label" for="username">Username</label>
         <input

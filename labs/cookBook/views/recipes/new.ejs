@@ -11,6 +11,7 @@
     </div>
 
     <form action="/recipes" method="POST" class="space-y-5">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
       <div>
         <label class="field-label" for="title">Titulo *</label>
         <input

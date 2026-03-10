@@ -8,6 +8,7 @@
     <p class="mt-2 text-center text-sm text-slate-600">Accede para crear y administrar tus recetas.</p>
 
     <form action="/login" method="POST" class="mt-6 space-y-4">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
       <div>
         <label class="field-label" for="loginValue">Username o email</label>
         <input
