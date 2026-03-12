@@ -15,6 +15,17 @@ exports.showLogin = (request, response) => {
   });
 }
 
+/*
+Function to handle login POST request
+Validates input, checks credentials, and sets session
+Renders login page with error if validation fails or credentials are invalid
+
+On login:
+- Retrieves user privileges from database
+- Stores user info and privileges in session
+- Redirects to /recipes on successful login
+*/
+
 exports.login = (request, response, next) => {
   const loginValue = (request.body.loginValue || '').trim();
   const password = (request.body.password || '').trim();
@@ -28,44 +39,46 @@ exports.login = (request, response, next) => {
   }
 
   userModel.findLogin(loginValue).then((user) => {
-      if (!user) {
+    if (!user) {
+      return response.status(401).render('login', {
+        title: 'Iniciar sesion',
+        error: 'Credenciales invalidas.',
+        formData: { loginValue }
+      });
+    }
+
+    bcrypt.compare(password, user.password).then((isMatch) => {
+      if (isMatch) {
+        userModel.getPrivileges(user.username).then(([privileges]) => {
+          request.session.user = {
+            id: user.user_id,
+            username: user.username,
+            email: user.email,
+            privileges: privileges.map(p => p.privilege)
+          };
+
+          request.session.save(() => {
+            return response.redirect('/recipes');
+          });
+        });
+      } 
+      else {
         return response.status(401).render('login', {
           title: 'Iniciar sesion',
           error: 'Credenciales invalidas.',
           formData: { loginValue }
         });
       }
-
-      bcrypt.compare(password, user.password).then((isMatch) => {
-        if (isMatch) {
-          request.session.user = {
-            id: user.user_id,
-            username: user.username,
-            email: user.email
-          };
-
-          request.session.save(() => {
-            return response.redirect('/recipes');
-          });
-        } 
-        else {
-          return response.status(401).render('login', {
-            title: 'Iniciar sesion',
-            error: 'Credenciales invalidas.',
-            formData: { loginValue }
-          });
-        }
-      });
-    })
-    .catch(() => {
-      return response.status(401).render('login', {
-        title: 'Iniciar sesion',
-        error: 'Credenciales invalidas.',
-        formData: { loginValue }
-      });
     });
-      
-}
+  })
+  .catch(() => {
+    return response.status(401).render('login', {
+      title: 'Iniciar sesion',
+      error: 'Credenciales invalidas.',
+      formData: { loginValue }
+    });
+  });
+};
 
 exports.showsignup = (request, response) => {
   response.render('signup', {

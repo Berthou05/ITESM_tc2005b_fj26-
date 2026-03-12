@@ -36,4 +36,16 @@ module.exports = class User {
       return rows[0] || null;
     });
   }
+
+  static getPrivileges(username) {
+    return db.execute(`
+      SELECT p.privilege
+      FROM users u
+      JOIN user_roles ur ON u.user_id = ur.id_user
+      JOIN roles r ON ur.id_rol = r.id
+      JOIN role_privileges rp ON r.id = rp.id_rol
+      JOIN privileges p ON rp.id_privilege = p.id
+      WHERE u.username = ?;
+    `, [username]);
+  }
 };
