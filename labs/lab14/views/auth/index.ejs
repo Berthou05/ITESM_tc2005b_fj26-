@@ -1,0 +1,23 @@
+<%- include("../includes/_head", { pageTitle }) %>
+
+<section class="card auth-card">
+  <nav class="mode-switch" aria-label="Cambiar vista">
+    <a class="mode-link <%= mode === 'login' ? 'active' : '' %>" href="/login">Iniciar sesion</a>
+    <a class="mode-link <%= mode === 'signup' ? 'active' : '' %>" href="/signup">Registrarse</a>
+  </nav>
+
+  <h1><%= heading %></h1>
+
+  <% if (error) { %>
+  <p class="error"><%= error %></p>
+  <% } %>
+
+  <%- include("../includes/_auth-form", { formAction, submitLabel, mode, username }) %>
+
+  <p class="link">
+    <%= alternateText %>
+    <a href="<%= alternateHref %>"><%= alternateLabel %></a>
+  </p>
+</section>
+
+<%- include("../includes/_page-end", { scriptPath: "/js/auth.js" }) %>

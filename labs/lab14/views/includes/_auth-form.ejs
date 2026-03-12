@@ -1,0 +1,32 @@
+<form class="auth-form" action="<%= formAction %>" method="POST" novalidate>
+  <label for="username">Usuario</label>
+  <input
+    id="username"
+    name="username"
+    type="text"
+    value="<%= username || '' %>"
+    autocomplete="username"
+    required
+  />
+
+  <label for="password">Contrasena</label>
+  <input
+    id="password"
+    name="password"
+    type="password"
+    autocomplete="<%= mode === 'signup' ? 'new-password' : 'current-password' %>"
+    required
+  />
+
+  <% if (mode === "signup") { %>
+  <label for="password2">Confirmar contrasena</label>
+  <input id="password2" name="password2" type="password" autocomplete="new-password" required />
+  <% } %>
+
+  <p class="status" data-status aria-live="polite"></p>
+  <button class="submit-btn" type="submit"><%= submitLabel %></button>
+</form>
+
+<% if (mode === "signup") { %>
+<p class="hint">Tu contrasena debe tener al menos 8 caracteres.</p>
+<% } %>

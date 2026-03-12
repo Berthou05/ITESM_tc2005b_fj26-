@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Labs Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/css/labs-hub.css" />
+  </head>
+  <body class="hub-bg text-slate-100">
+    <main class="mx-auto w-[min(1100px,92vw)] py-8">
+      <header class="hub-panel mb-6 p-6 sm:p-8">
+        <p class="eyebrow">ITESM - TC2005B</p>
+        <div class="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <h1 class="text-3xl font-bold tracking-tight sm:text-4xl">My Labs Portfolio</h1>
+            <p class="mt-2 max-w-2xl text-sm text-slate-300 sm:text-base">
+              Visualize all labs in one place
+            </p>
+          </div>
+          <a href="/tasks" class="hub-btn inline-flex items-center rounded-xl px-4 py-2 text-sm font-bold text-white">
+            Open Lab 11 / 12 Tasks
+          </a>
+        </div>
+      </header>
+
+      <section class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <% labs.forEach((lab) => { %>
+          <article class="hub-card rounded-2xl border p-5">
+            <div class="mb-4 flex items-start justify-between gap-3">
+              <div>
+                <h2 class="text-xl font-bold tracking-tight"><%= lab.name %></h2>
+                <p class="mt-1 text-xs uppercase tracking-wide text-slate-400"><%= lab.stack %></p>
+              </div>
+              <span class="tag rounded-full px-2 py-1 text-xs font-bold"><%= lab.tag %></span>
+            </div>
+
+            <p class="text-sm leading-relaxed text-slate-300"><%= lab.description %></p>
+
+            <% if (lab.note) { %>
+              <p class="mt-3 text-xs text-slate-400"><%= lab.note %></p>
+            <% } %>
+
+            <a
+              href="<%= lab.href %>"
+              class="mt-5 inline-flex items-center rounded-lg border border-slate-600 px-3 py-2 text-sm font-semibold text-slate-100 transition hover:border-red-400 hover:text-white"
+              <%- lab.newTab ? 'target="_blank" rel="noreferrer"' : '' %>
+            >
+              <%= lab.cta %>
+            </a>
+          </article>
+        <% }) %>
+      </section>
+    </main>
+  </body>
+</html>

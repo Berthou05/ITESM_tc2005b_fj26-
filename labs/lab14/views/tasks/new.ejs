@@ -1,0 +1,19 @@
+<%- include("../includes/_head", { pageTitle }) %>
+
+<section class="card tasks-card">
+  <h1>Nueva tarea</h1>
+
+  <form action="/tasks/new" method="POST" class="auth-form">
+    <label for="title">Titulo</label>
+    <input id="title" name="title" type="text" placeholder="Ej. Terminar proyecto" required>
+
+    <label for="dueDate">Fecha limite</label>
+    <input id="dueDate" name="dueDate" type="date">
+
+    <button type="submit" class="submit-btn">Guardar</button>
+  </form>
+
+  <a href="/tasks" class="link-back">Volver a tareas</a>
+</section>
+
+<%- include("../includes/_page-end") %>

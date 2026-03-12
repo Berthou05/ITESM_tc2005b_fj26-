@@ -1,0 +1,33 @@
+<%- include("../includes/_head", { pageTitle }) %>
+
+<section class="card tasks-card">
+  <div class="tasks-header">
+    <h1>Tareas</h1>
+    <a href="/tasks/new" class="entry-btn">Nueva tarea</a>
+  </div>
+
+  <% if (!tasks || tasks.length === 0) { %>
+  <p class="hint">No hay tareas todavia.</p>
+  <% } else { %>
+  <ul class="tasks-list">
+    <% tasks.forEach((task) => { %>
+    <li class="task-item">
+      <div class="task-info">
+        <span class="task-title"><%= task.title %></span>
+        <span class="task-date">
+          <%= task.dueDate ? new Date(task.dueDate).toLocaleDateString() : "Sin fecha" %>
+        </span>
+      </div>
+      <form action="/tasks/delete" method="POST" class="task-delete-form">
+        <input type="hidden" name="id" value="<%= task.id %>">
+        <button type="submit" class="delete-btn">Eliminar</button>
+      </form>
+    </li>
+    <% }) %>
+  </ul>
+  <% } %>
+
+  <a href="/" class="link-back">Volver al inicio</a>
+</section>
+
+<%- include("../includes/_page-end") %>

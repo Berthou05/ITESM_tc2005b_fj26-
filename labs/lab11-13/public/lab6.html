@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head> 
+  <meta charset="utf-8"> 
+  <title>Lab 6 - Programación orientada a eventos</title> 
+  <link rel="stylesheet" href="css/styles.css"> 
+</head>
+
+<body>
+  <div class="card-container" id="login-screen">
+    <div class="card" id="login-title">
+      <h1 class="card-title">Laboratorio 6</h1>
+
+      <form id="form" novalidate>
+
+        <label>Username</label>
+        <input id="username" type="text">
+
+        <label>Password</label>
+        <input id="p1" type="password">
+
+        <label>Validate Password</label>
+        <input id="p2" type="password">
+
+        <div id="status">Escribe para validar.</div>
+
+        <button type="submit" id="sign-in-button">Sign In</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="tooltip-password" class="tooltip">
+  Usa signos, letras y números para una contraseña más fuerte
+  </div>
+  
+  <div id="welcome-screen" style="display: none;">
+    <header class="topbar">
+      <div class="brand">
+        <p class="eyebrow">Construcción de Software</p>
+        <h1>Laboratorio 6 - Programación orientada a eventos</h1>
+      </div>
+    </header>
+    
+    <div class="panel">
+      <div class="panel-card">
+        <button id="logout" type="button" class="panel-log-out">Log out</button>
+        
+        <h1>Preguntas</h1>
+        <div>
+          <p><strong>¿Por qué es una buena práctica usar JavaScript para checar que sean válidos los inputs de 
+            las formas antes de enviar los datos al servidor?</strong><br>
+          Es buena practica y que favorece al UX porque el usuario no tiene que esperar a que se envie la 
+          informacion al servidor para saber si los datos son validos o no, ademas de que se pueden mostrar 
+          mensajes personalizados para cada error. Esto reduce mucho los errores del usuario y mejora la 
+          experiencia de usuario.
+          </p>
+          <a href="https://developer.mozilla.org/es/docs/Learn_web_development/Extensions/Forms/Form_validation">Fuente</a>
+
+          <p><strong>¿Cómo puedes saltarte la seguridad de validaciones hechas con JavaScript?</strong><br>
+          "es tan sencillo como introducir un par de palabras reservadas en el código HTML utilizando la consola del 
+          desarrollador de nuestro navegador."<br>
+          Puedes saltarte la seguridad de validaciones hechas con JavaScript deshabilitando el JavaScript en el 
+          navegador o manipulando el DOM con herramientas de desarrollo del navegador. Como por ejemplo, puedes eliminar 
+          los atributos de validación de los campos del formulario o modificar el código JavaScript para que no 
+          realice las validaciones. Es por esto que las validaciones siempre deben ser complementadas con validaciones 
+          en el backend para hacer que tu aplicación sea más segura.
+          </p>
+          <a href="https://didacticode.com/como-saltarse-validacion-html5-formulario/">Fuente</a>
+
+          <p><strong>Si te puedes saltar la seguridad de las validaciones de JavaScript, entonces ¿por qué la 
+            primera pregunta dice que es una buena práctica?</strong><br>
+          Porque las validaciones en el front hacen que la experiencia de usuario sea mejor, ya que muchas veces puede
+          ser molesto para el usuario tener que esperar a que se envie la informacion al servidor para saber si los datos son validos
+          o no, ademas de que se puede mostrar el porque de cada error. Por otro lado, validarlo con el backend no esta opuesto
+          a validarlo con el frontend, sino que se complementan para hacer que tu aplicación sea más segura y con buen UX. 
+          Es decir, las validaciones en el frontend son para mejorar la experiencia de usuario, mientras que las validaciones 
+          en el backend son para mejorar la seguridad de la aplicación.
+          </p>
+        </div>
+        
+        <h1>Referencias a info extra</h1>
+        <ul>
+          <li><a href="https://youtu.be/NO5kUNxGIu0?si=NrQVg2e2Fw25nfH3">tutorial basico de youtube</a></li>
+          <li><a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/">Revision de flex</a></li>
+          <li><a href="https://developer.mozilla.org/es/docs/Learn_web_development/Core/Scripting/Events">Eventos en JavaScript</a></li>
+          <li><a href="https://developer.mozilla.org/es/docs/Web/HTML/Reference/Elements/input/password">Formulario contraseña</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  
+  <script src="js/lab6.js"></script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+<%- include("./includes/_head", { pageTitle }) %>
+
+<section id="welcome-screen" class="card">
+  <h1>Bienvenido, <%= username %></h1>
+  <p>Autenticacion exitosa.</p>
+  <div class="entry-actions">
+    <a class="entry-btn" href="/tasks">Ver tareas</a>
+    <a class="entry-btn secondary" href="/">Cerrar sesion</a>
+  </div>
+</section>
+
+<%- include("./includes/_page-end") %>
