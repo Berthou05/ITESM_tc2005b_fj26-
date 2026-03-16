@@ -1,4 +1,5 @@
 const express = require("express");
+const session = require("express-session");
 const path = require("path");
 
 const app = express();
@@ -9,6 +10,13 @@ app.set("views", path.join(__dirname, "views"));
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
+app.use(
+  session({
+    secret: "mi string secreto que debe ser un string aleatorio muy largo, no como este",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 
 const loginRoutes = require("./routes/login.routes");
 const taskRoutes = require("./routes/task.routes");

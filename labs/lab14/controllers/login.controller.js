@@ -1,5 +1,19 @@
 const Users = require("../models/users.model");
 
+function getCookieValue(request, cookieName) {
+  const allCookies = request.get("Cookie") || "";
+  const cookie = allCookies
+    .split(";")
+    .map((part) => part.trim())
+    .find((part) => part.startsWith(`${cookieName}=`));
+
+  if (!cookie) {
+    return "";
+  }
+
+  return cookie.split("=")[1] || "";
+}
+
 const MODE_CONFIG = {
   login: {
     heading: "Iniciar sesion",
@@ -44,8 +58,9 @@ exports.get_entry = (_request, response) => {
   });
 };
 
-exports.get_login = (_request, response) => {
-  return renderAuthPage(response, "login");
+exports.get_login = (request, response) => {
+  const username = getCookieValue(request, "ultimo_usuario");
+  return renderAuthPage(response, "login", { username });
 };
 
 exports.post_login = (request, response) => {
@@ -66,6 +81,10 @@ exports.post_login = (request, response) => {
       username,
     });
   }
+
+  request.session.isLoggedIn = true;
+  request.session.username = username;
+  response.setHeader("Set-Cookie", `ultimo_usuario=${username}; HttpOnly`);
 
   return response.render("welcome", {
     pageTitle: "Bienvenido | Lab 14",
@@ -111,8 +130,18 @@ exports.post_signup = (request, response) => {
     });
   }
 
+  request.session.isLoggedIn = true;
+  request.session.username = username;
+  response.setHeader("Set-Cookie", `ultimo_usuario=${username}; HttpOnly`);
+
   return response.render("welcome", {
     pageTitle: "Bienvenido | Lab 14",
     username,
+  });
+};
+
+exports.logout = (request, response) => {
+  request.session.destroy(() => {
+    response.redirect("/");
   });
 };
