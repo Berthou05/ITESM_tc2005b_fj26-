@@ -124,7 +124,7 @@ WHERE materiales.clave = entregan.clave;
 Si algún material no ha sido entregado  
 ¿Aparecería en el resultado de esta consulta?
 
-Respuesta: No, porque JN solo incluye tuplas que tienen coincidencia en ambas tablas.
+No, porque JN solo incluye tuplas que tienen coincidencia en ambas tablas.
 
 ---
 
@@ -255,7 +255,7 @@ FROM entregan, materiales;
 
 ¿Cómo está definido el número de tuplas de este resultado en términos del número de tuplas de entregan y de materiales?
 
-Respuesta: El numero de tuplas es igual al producto del número de tuplas de cada tabla. Si entregan tiene m = 87 tuplas y materiales tiene n = 45 tuplas, el resultado tendrá m*n = 3915 tuplas.
+El numero de tuplas es igual al producto del número de tuplas de cada tabla. Si entregan tiene m = 87 tuplas y materiales tiene n = 45 tuplas, el resultado tendrá m*n = 3915 tuplas.
 
 ##  Construcción de consultas a partir de una especificación 
 Plantea ahora una consulta para obtener las descripciones de los materiales entregados en el año 2000. 
@@ -278,8 +278,10 @@ AND entregan.fecha < '2001-01-01';
 [12] resultados
 
 **Pregunta**
+
 ¿Por qué aparecen varias veces algunas descripciones de material? 
-Respuesta: Porque un mismo material puede haber sido entregado varias veces durante el año 2000, lo que genera varias tuplas con la misma descripción en el resultado.
+
+Porque un mismo material puede haber sido entregado varias veces durante el año 2000, lo que genera varias tuplas con la misma descripción en el resultado.
 
 
 ## Uso del calificador distinct 
@@ -305,8 +307,10 @@ AND entregan.fecha < '2001-01-01';
 [10] resultados
 
 **Pregunta**
+
 ¿Qué resultado obtienes en esta ocasión? 
-Respuesta: Ahora cada descripción de material aparece solo una vez, eliminando los duplicados del resultado anterior reduciendo de 12 a 10 resultados.
+
+Ahora cada descripción de material aparece solo una vez, eliminando los duplicados del resultado anterior reduciendo de 12 a 10 resultados.
 
 ## Ordenamientos
 
@@ -378,19 +382,25 @@ SELECT * FROM materiales WHERE Descripcion LIKE 'Si%'
 [2] resultados
 
 **Preguntas**
+
 *¿Qué resultado obtienes?*
+
 Cuando se utiliza el operador LIKE con el patrón 'Si%', se obtienen todas las filas de la tabla materiales donde la columna descripcion comienza con "Si". En este caso, se obtienen dos resultados: "Sillar rosa" y "Sillar gris".
 
 *Explica que hace el símbolo '%'.*
+
 El simbolo '%' es un comodín que representa cualquier secuencia de caracteres, incluyendo una secuencia vacía. En el patrón 'Si%', el '%' permite que cualquier texto siga a "Si", lo que significa que se seleccionarán todas las descripciones que comiencen con "Si", independientemente de lo que venga después.
 
 *¿Qué sucede si la consulta fuera : LIKE 'Si' ?*
+
 La consulta con el patrón 'Si' sin el comodín '%' buscaría exactamente la cadena "Si" en la columna descripcion. Esto significa que solo se seleccionaría una fila si hay una descripción que sea exactamente "Si", sin ningún otro texto antes o después.
 
 *¿Qué resultado obtienes?*
+
 La consulta retornaría cero resultados, ya que el patrón 'Si' sin el comodín '%' solo coincidiría con descripciones que sean exactamente "Si", y no hay ninguna descripción en la tabla materiales que sea exactamente "Si".
 
 *Explica a qué se debe este comportamiento*
+
 Esto se debe a que el operador LIKE sin el comodín '%' busca una coincidencia exacta con la cadena proporcionada. En este caso, como no hay ninguna descripción que sea exactamente "Si", la consulta no devuelve ningún resultado.
 
 ### *concatenación*
@@ -428,16 +438,21 @@ SELECT CONCAT(@foo, @bar) AS Resultado;
 
 
 **Preguntas**
+
 *¿Qué resultado obtienes de ejecutar el siguiente código?*
+
 ¿Que resultado obtienes? ¿¿¿???  
 
 *¿Para qué sirve DECLARE?*
+
 Para declarar variables en SQL. En este caso, se declaran dos variables de tipo varchar con una longitud máxima de 40 caracteres, llamadas @foo y @bar. Solo que no se pueden usar en MariaDB, por lo que se adaptó el código para usar variables de sesión.
 
 *¿Cuál es la función de @foo?*
+
 La variable @foo se utiliza para almacenar la cadena de texto "¿Que resultado" inicialmente, y luego se le concatena la cadena " obtienes?" para formar una pregunta completa. Finalmente, se concatena con @bar para mostrar el resultado final.
 
 *¿Que realiza el operador SET?*
+
 El operador SET se utiliza para asignar un valor a una variable. En el código proporcionado, se utiliza para asignar las cadenas de texto a las variables @foo y @bar, y luego para actualizar el valor de @foo concatenando la nueva cadena.
 En MariaDB, se utiliza la función CONCAT() para concatenar cadenas, por lo que el operador SET se adapta para usar CONCAT() en lugar de +=.
 
@@ -542,6 +557,7 @@ WHERE Numero Between 5000 AND 5010;
 [43] resultados
 
 **Pregunta**
+
 *¿Cómo filtrarías rangos de fechas?*
 
 ``` sql
@@ -579,10 +595,13 @@ Exists ( SELECT RFC
 [12] resultados
 
 **Preguntas**
+
 *¿Qué hace la consulta?*
+
 Devuelve las entregas cuyo número de proyecto está entre 5000 y 5010 y cuyo proveedor existe en la tabla Proveedores con una razón social que empieza con "La".
 
 *¿Qué función tiene el paréntesis ( ) después de EXISTS?*
+
 Los paréntesis contienen la subconsulta que se evalúa para cada fila de la consulta principal. EXISTS devuelve verdadero si la subconsulta encuentra al menos una fila.
 
 ## IN
@@ -656,6 +675,7 @@ La consulta devuelve claves y cantidades de entregas donde la cantidad es mayor 
 El Operador TOP, es un operador que recorre la entrada, un query, y sólo devuelve el primer número o porcentaje especifico de filas basado en un criterio de ordenación si es posible. 
 
 **Preguntas**
+
 *¿Qué hace la siguiente sentencia? Explica por qué.*
 
 ``` sql
