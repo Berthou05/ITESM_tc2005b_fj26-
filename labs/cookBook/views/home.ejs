@@ -21,7 +21,9 @@
       <div class="mt-8 flex flex-wrap gap-3">
         <% if (currentUser) { %>
             <a href="/recipes" class="btn-main">Ver recetas</a>
-            <a href="/recipes/new" class="btn-soft">Crear receta</a>
+            <% if (currentUser.privileges && currentUser.privileges.includes('crear_recetas')) { %>
+              <a href="/recipes/new" class="btn-soft">Crear receta</a>
+            <% } %>
         <% } %>
       </div>
 

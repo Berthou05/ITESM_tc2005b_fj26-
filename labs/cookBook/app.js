@@ -30,17 +30,10 @@ app.use(
   })
 );
 
-app.use(csrfProtection);
-
-app.use((req, res, next) => {
-  res.locals.csrfToken = req.csrfToken();
-  next();
-});
-
 app.use((req, res, next) => {
   res.locals.currentUser = req.session.user || null;
   res.locals.flash = req.session.flash || null;
-  delete req.session.flash;
+  res.locals.csrfToken = null;
 
   const visits = Number(req.cookies.visits || 0) + 1;
   res.cookie('visits', visits, { maxAge: 1000 * 60 * 60 * 24 * 30, httpOnly: false });
@@ -49,16 +42,44 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(csrfProtection);
+
+app.use((req, res, next) => {
+  res.locals.csrfToken = req.csrfToken();
+  delete req.session.flash;
+  next();
+});
+
 app.use('/', authRoutes);
 app.use('/recipes', recipeRoutes);
 
 app.use((error, req, res, next) => {
   console.error(error);
-  res.status(500).render('404', { title: 'Error interno' });
+
+  if (error.code === 'EBADCSRFTOKEN') {
+    return res.status(403).render('404', {
+      title: 'Solicitud invalida',
+      errorCode: 403,
+      heading: 'Solicitud invalida',
+      message: 'El formulario expiro o el token CSRF no es valido. Recarga la pagina e intenta de nuevo.'
+    });
+  }
+
+  return res.status(500).render('404', {
+    title: 'Error interno',
+    errorCode: 500,
+    heading: 'Error interno',
+    message: 'Ocurrio un error inesperado al procesar la solicitud.'
+  });
 });
 
 app.use((req, res) => {
-  res.status(404).render('404', { title: 'Pagina no encontrada' });
+  res.status(404).render('404', {
+    title: 'Pagina no encontrada',
+    errorCode: 404,
+    heading: 'Pagina no encontrada',
+    message: 'La ruta que buscas no existe o no esta disponible.'
+  });
 });
 
 app.listen(PORT, () => {

@@ -1,7 +1,6 @@
 ﻿const recipeModel = require('../models/recipeModel');
 
 exports.listRecipes = (request, response) => {
-  console.log(request.session.user.privileges);
   recipeModel.getAllRecipes()
     .then((recipes) => {
       return response.render('recipes/index', {
