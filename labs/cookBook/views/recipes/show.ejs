@@ -50,7 +50,10 @@
           </ol>
         </section>
 
-        <div class="mt-7">
+        <div class="mt-7 flex flex-wrap gap-3">
+          <% if (currentUser.privileges && currentUser.privileges.includes('modificar_recetas')) { %>
+            <a href="/recipes/<%= recipe.recipe_id %>/edit" class="btn-main">Modificar receta</a>
+          <% } %>
           <a href="/recipes" class="btn-soft">Volver a recetas</a>
         </div>
       </div>

@@ -1,0 +1,80 @@
+<%- include('../partials/head', { title }) %>
+<%- include('../partials/navbar') %>
+<%- include('../partials/alerts') %>
+
+<main class="container-shell py-12">
+  <section class="mx-auto max-w-4xl panel p-7 md:p-9">
+    <div class="mb-7">
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-orange-600">Panel de edicion</p>
+      <h1 class="mt-2 text-3xl font-extrabold">Modificar receta</h1>
+      <p class="mt-2 text-sm text-slate-600">Actualiza los datos de la receta y guarda los cambios.</p>
+    </div>
+
+    <form action="/recipes/<%= recipeId %>/edit" method="POST" class="space-y-5">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <div>
+        <label class="field-label" for="title">Titulo *</label>
+        <input
+          id="title"
+          type="text"
+          name="title"
+          class="field-input"
+          placeholder="Ej. Tacos de pollo"
+          value="<%= formData.title %>"
+          required
+        />
+      </div>
+
+      <div>
+        <label class="field-label" for="description">Descripcion</label>
+        <textarea
+          id="description"
+          name="description"
+          class="field-textarea min-h-[100px]"
+          placeholder="Describe brevemente la receta"
+        ><%= formData.description %></textarea>
+      </div>
+
+      <div>
+        <label class="field-label" for="ingredients">Ingredientes *</label>
+        <textarea
+          id="ingredients"
+          name="ingredients"
+          class="field-textarea"
+          placeholder="Un ingrediente por linea"
+          required
+        ><%= formData.ingredients %></textarea>
+      </div>
+
+      <div>
+        <label class="field-label" for="steps">Pasos *</label>
+        <textarea
+          id="steps"
+          name="steps"
+          class="field-textarea min-h-[150px]"
+          placeholder="Escribe el procedimiento"
+          required
+        ><%= formData.steps %></textarea>
+      </div>
+
+      <div>
+        <label class="field-label" for="image_url">URL de imagen (externa)</label>
+        <input
+          id="image_url"
+          type="url"
+          name="image_url"
+          class="field-input"
+          placeholder="https://..."
+          value="<%= formData.image_url %>"
+        />
+      </div>
+
+      <div class="flex flex-wrap justify-end gap-3 pt-1">
+        <a href="/recipes/<%= recipeId %>" class="btn-soft">Cancelar</a>
+        <button type="submit" class="btn-main">Guardar cambios</button>
+      </div>
+    </form>
+  </section>
+</main>
+
+<%- include('../partials/footer') %>

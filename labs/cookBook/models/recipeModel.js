@@ -23,7 +23,7 @@ module.exports = class Recipe {
     });
   }
 
-    static getRecipeById(recipeId) {
+  static getRecipeById(recipeId) {
     const sql = `
       SELECT
         r.recipe_id,
@@ -46,7 +46,7 @@ module.exports = class Recipe {
     });
   }
 
-    static createRecipe({ user_id, title, description, ingredients, steps, image_url }) {
+  static createRecipe({ user_id, title, description, ingredients, steps, image_url }) {
     const sql = `
       INSERT INTO recipes (user_id, title, description, ingredients, steps, image_url)
       VALUES (?, ?, ?, ?, ?, ?)
@@ -57,5 +57,30 @@ module.exports = class Recipe {
       .then(([result]) => {
         return result.insertId;
       });
+  }
+
+  static updateRecipe(recipeId, { title, description, ingredients, steps, image_url }) {
+    const sql = `
+      UPDATE recipes
+      SET title = ?, description = ?, ingredients = ?, steps = ?, image_url = ?
+      WHERE recipe_id = ?
+    `;
+
+    return db
+      .execute(sql, [title, description, ingredients, steps, image_url || null, recipeId])
+      .then(([result]) => {
+        return result.affectedRows > 0;
+      });
+  }
+
+  static deleteRecipe(recipeId) {
+    const sql = `
+      DELETE FROM recipes
+      WHERE recipe_id = ?
+    `;
+
+    return db.execute(sql, [recipeId]).then(([result]) => {
+      return result.affectedRows > 0;
+    });
   }
 };
