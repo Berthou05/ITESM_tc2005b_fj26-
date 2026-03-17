@@ -42,7 +42,7 @@ exports.createRecipe = (request, response) => {
 
   recipeModel
     .createRecipe({
-      user_id: request.session.user.user_id,
+      user_id: request.session.user.id,
       title,
       description,
       ingredients,
@@ -146,6 +146,32 @@ exports.updateRecipe = (request, response) => {
         error: 'No se pudo actualizar la receta.',
         formData: { title, description, ingredients, steps, image_url }
       });
+    });
+}
+
+exports.deleteRecipe = (request, response) => {
+  const recipeId = Number(request.params.id);
+
+  if (Number.isNaN(recipeId) || recipeId <= 0) {
+    return response.status(400).render('404', { title: 'Receta invalida' });
+  }
+
+  recipeModel
+    .deleteRecipe(recipeId)
+    .then((deleted) => {
+      if (!deleted) {
+        return response.status(404).render('404', { title: 'Receta no encontrada' });
+      }
+
+      request.session.flash = {
+        type: 'success',
+        message: 'Receta eliminada correctamente.'
+      };
+
+      return response.redirect('/recipes');
+    })
+    .catch(() => {
+      return response.status(500).render('404', { title: 'Error al eliminar receta' });
     });
 }
 

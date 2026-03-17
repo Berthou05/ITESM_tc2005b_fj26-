@@ -54,6 +54,12 @@
           <% if (currentUser.privileges && currentUser.privileges.includes('modificar_recetas')) { %>
             <a href="/recipes/<%= recipe.recipe_id %>/edit" class="btn-main">Modificar receta</a>
           <% } %>
+          <% if (currentUser.privileges && currentUser.privileges.includes('borrar_recetas')) { %>
+            <form action="/recipes/<%= recipe.recipe_id %>/delete" method="POST" onsubmit="return confirm('Estas seguro de que quieres eliminar esta receta?');">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+              <button type="submit" class="btn-danger">Eliminar receta</button>
+            </form>
+          <% } %>
           <a href="/recipes" class="btn-soft">Volver a recetas</a>
         </div>
       </div>
