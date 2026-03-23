@@ -3,11 +3,12 @@
 <%- include('../partials/alerts') %>
 
 <main class="container-shell py-12">
+  <% const imageSrc = !recipe.filename || recipe.filename.startsWith('http://') || recipe.filename.startsWith('https://') ? '/css/uploads/default-recipe.jpg' : `/uploads/${recipe.filename}`; %>
   <article class="mx-auto overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_26px_70px_-35px_rgba(15,23,42,0.45)]">
     <div class="grid gap-0 lg:grid-cols-[1.05fr_1fr]">
       <figure class="relative min-h-[280px]">
         <img
-          src="/uploads/<%= recipe.filename %>"
+          src="<%= imageSrc %>"
           alt="Imagen de <%= recipe.title %>"
           class="h-full w-full object-cover"
         />

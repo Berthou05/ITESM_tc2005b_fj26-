@@ -46,10 +46,14 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(csrfProtection);
+app.use((req, res, next) => {
+  if (req.is('multipart/form-data')) return next(); // handled at route level
+  return csrfProtection(req, res, next);
+});
 
 app.use((req, res, next) => {
-  res.locals.csrfToken = req.csrfToken();
+  // req.csrfToken exists only if csrfProtection ran
+  res.locals.csrfToken = typeof req.csrfToken === 'function' ? req.csrfToken() : null;
   delete req.session.flash;
   next();
 });

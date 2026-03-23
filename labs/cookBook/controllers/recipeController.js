@@ -31,13 +31,13 @@ exports.createRecipe = (request, response) => {
   const description = (request.body.description || '').trim();
   const ingredients = (request.body.ingredients || '').trim();
   const steps = (request.body.steps || '').trim();
-  const filename = (request.file.filename || '').trim();
+  const imageUrl = request.file?.filename?.trim() || null;
 
   if (!title || !ingredients || !steps) {
     return response.status(400).render('recipes/new', {
       title: 'Nueva receta',
       error: 'Titulo, ingredientes y pasos son obligatorios.',
-      formData: { title, description, ingredients, steps, filename }
+      formData: { title, description, ingredients, steps, image_url: imageUrl || '' }
     });
   }
 
@@ -48,7 +48,7 @@ exports.createRecipe = (request, response) => {
       description,
       ingredients,
       steps,
-      filename
+      image_url: imageUrl
     })
     .then((recipeId) => {
       request.session.flash = {
@@ -62,7 +62,7 @@ exports.createRecipe = (request, response) => {
       return response.status(500).render('recipes/new', {
         title: 'Nueva receta',
         error: 'No se pudo guardar la receta.',
-        formData: { title, description, ingredients, steps, filename }
+        formData: { title, description, ingredients, steps, image_url: imageUrl || '' }
       });
     });
 }
@@ -105,7 +105,7 @@ exports.updateRecipe = (request, response) => {
   const description = (request.body.description || '').trim();
   const ingredients = (request.body.ingredients || '').trim();
   const steps = (request.body.steps || '').trim();
-  const filename = (request.file.filename || '').trim();
+  const uploadedImage = request.file?.filename?.trim() || null;
 
   if (Number.isNaN(recipeId) || recipeId <= 0) {
     return response.status(400).render('404', { title: 'Receta invalida' });
@@ -116,17 +116,24 @@ exports.updateRecipe = (request, response) => {
       title: 'Editar receta',
       recipeId,
       error: 'Titulo, ingredientes y pasos son obligatorios.',
-      formData: { title, description, ingredients, steps, filename }
+      formData: { title, description, ingredients, steps, filename: uploadedImage || '' }
     });
   }
 
   recipeModel
-    .updateRecipe(recipeId, {
-      title,
-      description,
-      ingredients,
-      steps,
-      filename
+    .getRecipeById(recipeId)
+    .then((recipe) => {
+      if (!recipe) {
+        return null;
+      }
+
+      return recipeModel.updateRecipe(recipeId, {
+        title,
+        description,
+        ingredients,
+        steps,
+        image_url: uploadedImage || recipe.filename || null
+      });
     })
     .then((updated) => {
       if (!updated) {
@@ -145,7 +152,7 @@ exports.updateRecipe = (request, response) => {
         title: 'Editar receta',
         recipeId,
         error: 'No se pudo actualizar la receta.',
-        formData: { title, description, ingredients, steps, filename }
+        formData: { title, description, ingredients, steps, filename: uploadedImage || '' }
       });
     });
 }

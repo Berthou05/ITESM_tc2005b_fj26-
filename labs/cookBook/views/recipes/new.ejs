@@ -7,7 +7,7 @@
     <div class="mb-7">
       <p class="text-xs font-semibold uppercase tracking-[0.2em] text-orange-600">Panel de creacion</p>
       <h1 class="mt-2 text-3xl font-extrabold">Nueva receta</h1>
-      <p class="mt-2 text-sm text-slate-600">Completa los datos principales. La imagen se guarda como URL externa.</p>
+      <p class="mt-2 text-sm text-slate-600">Completa los datos principales y, si quieres, sube una imagen para la receta.</p>
     </div>
 
     <form action="/recipes" method="POST" class="space-y-5" enctype="multipart/form-data">
@@ -58,14 +58,12 @@
       </div>
 
       <div>
-        <label class="field-label" for="image_file">URL de imagen (externa)</label>
+        <label class="field-label" for="image_file">Imagen</label>
         <input
           id="image_file"
           type="file"
           name="image_file"
           class="field-input"
-          placeholder="https://..."
-          value="<%= formData.image_file %>"
         />
       </div>
 
