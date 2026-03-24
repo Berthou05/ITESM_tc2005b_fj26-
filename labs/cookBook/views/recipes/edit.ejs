@@ -10,7 +10,7 @@
       <p class="mt-2 text-sm text-slate-600">Actualiza los datos de la receta y guarda los cambios.</p>
     </div>
 
-    <form action="/recipes/<%= recipeId %>/edit" method="POST" class="space-y-5">
+    <form action="/recipes/<%= recipeId %>/edit" method="POST" class="space-y-5" enctype="multipart/form-data">
       <input type="hidden" name="_csrf" value="<%= csrfToken %>">
       <div>
         <label class="field-label" for="title">Titulo *</label>
@@ -58,14 +58,12 @@
       </div>
 
       <div>
-        <label class="field-label" for="image_url">URL de imagen (externa)</label>
+        <label class="field-label" for="image_file">Imagen</label>
         <input
-          id="image_url"
-          type="url"
-          name="image_url"
+          id="image_file"
+          type="file"
+          name="image_file"
           class="field-input"
-          placeholder="https://..."
-          value="<%= formData.image_url %>"
         />
       </div>
 

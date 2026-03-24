@@ -6,13 +6,17 @@ const canViewRecipe = require('../middlewares/viewPermissionMiddleware');
 const canCreateRecipe = require('../middlewares/createPermissionMiddleware');
 const canDeleteRecipe = require('../middlewares/deletePermissionMiddleware');
 const canModifyRecipe = require('../middlewares/modifyPermissionMiddleware');
+const { uploadRecipeImage } = require('../middlewares/uploadMiddleware');
+const csrf = require('csurf');
+const csrfProtection = csrf();
+
 const router = express.Router();
 
 router.get('/', requireAuth, canViewRecipe, recipeController.listRecipes);
 router.get('/new', requireAuth, canViewRecipe, canCreateRecipe, recipeController.showCreateRecipe);
-router.post('/', requireAuth, canCreateRecipe, recipeController.createRecipe);
+router.post('/', requireAuth, canCreateRecipe, uploadRecipeImage, csrfProtection, recipeController.createRecipe);
 router.get('/:id/edit', requireAuth, canViewRecipe, canModifyRecipe, recipeController.showEditRecipe);
-router.post('/:id/edit', requireAuth, canViewRecipe, canModifyRecipe, recipeController.updateRecipe);
+router.post('/:id/edit', requireAuth, canViewRecipe, canModifyRecipe, uploadRecipeImage, csrfProtection, recipeController.updateRecipe);
 router.post('/:id/delete', requireAuth, canViewRecipe, canDeleteRecipe, recipeController.deleteRecipe);
 router.get('/:id', requireAuth, canViewRecipe, recipeController.showRecipeDetail);
 

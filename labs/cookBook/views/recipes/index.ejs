@@ -26,10 +26,11 @@
 
   <section class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
     <% recipes.forEach((recipe) => { %>
+      <% const imageSrc = !recipe.filename || recipe.filename.startsWith('http://') || recipe.filename.startsWith('https://') ? '/css/uploads/default-recipe.jpg' : `/uploads/${recipe.filename}`; %>
       <article class="group overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_18px_50px_-28px_rgba(15,23,42,0.45)] transition hover:-translate-y-1 hover:shadow-[0_24px_60px_-28px_rgba(15,23,42,0.55)]">
         <div class="relative h-52 overflow-hidden">
           <img
-            src="<%= recipe.image_url || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=1200&q=80' %>"
+            src="<%= imageSrc %>"
             alt="Imagen de <%= recipe.title %>"
             class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
             loading="lazy"

@@ -4,6 +4,7 @@ const path = require('path');
 const express = require('express');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 
 const csrf = require('csurf');
 const csrfProtection = csrf();
@@ -17,9 +18,12 @@ const PORT = process.env.PORT || 3000;
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: false }));
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
+
+
 
 app.use(
   session({
@@ -34,24 +38,29 @@ app.use((req, res, next) => {
   res.locals.currentUser = req.session.user || null;
   res.locals.flash = req.session.flash || null;
   res.locals.csrfToken = null;
-
+  
   const visits = Number(req.cookies.visits || 0) + 1;
   res.cookie('visits', visits, { maxAge: 1000 * 60 * 60 * 24 * 30, httpOnly: false });
   res.locals.visits = visits;
-
+  
   next();
 });
 
-app.use(csrfProtection);
+app.use((req, res, next) => {
+  if (req.is('multipart/form-data')) return next(); // handled at route level
+  return csrfProtection(req, res, next);
+});
 
 app.use((req, res, next) => {
-  res.locals.csrfToken = req.csrfToken();
+  // req.csrfToken exists only if csrfProtection ran
+  res.locals.csrfToken = typeof req.csrfToken === 'function' ? req.csrfToken() : null;
   delete req.session.flash;
   next();
 });
 
 app.use('/', authRoutes);
 app.use('/recipes', recipeRoutes);
+app.use('/uploads', express.static(path.join(__dirname, 'public', 'uploads')));
 
 app.use((error, req, res, next) => {
   console.error(error);

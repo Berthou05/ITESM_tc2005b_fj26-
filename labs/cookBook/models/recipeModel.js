@@ -10,7 +10,7 @@ module.exports = class Recipe {
       r.description,
       r.ingredients,
       r.steps,
-      r.image_url,
+      r.image_url AS filename,
       r.created_at,
       u.username AS author_username
     FROM recipes r
@@ -32,7 +32,7 @@ module.exports = class Recipe {
         r.description,
         r.ingredients,
         r.steps,
-        r.image_url,
+        r.image_url AS filename,
         r.created_at,
         u.username AS author_username
       FROM recipes r

@@ -8,7 +8,8 @@ exports.listRecipes = (request, response) => {
         recipes: recipes || []
       });
     })
-    .catch(() => {
+    .catch((error) => {
+      console.error(error);
       return response.status(500).render('recipes/index', {
         title: 'Recetas',
         recipes: [],
@@ -21,7 +22,7 @@ exports.showCreateRecipe = (request, response) => {
   return response.render('recipes/new', {
     title: 'Nueva receta',
     error: null,
-    formData: { title: '', description: '', ingredients: '', steps: '', image_url: '' }
+    formData: { title: '', description: '', ingredients: '', steps: '', filename: '' }
   });
 }
 
@@ -30,13 +31,13 @@ exports.createRecipe = (request, response) => {
   const description = (request.body.description || '').trim();
   const ingredients = (request.body.ingredients || '').trim();
   const steps = (request.body.steps || '').trim();
-  const image_url = (request.body.image_url || '').trim();
+  const imageUrl = request.file?.filename?.trim() || null;
 
   if (!title || !ingredients || !steps) {
     return response.status(400).render('recipes/new', {
       title: 'Nueva receta',
       error: 'Titulo, ingredientes y pasos son obligatorios.',
-      formData: { title, description, ingredients, steps, image_url }
+      formData: { title, description, ingredients, steps, image_url: imageUrl || '' }
     });
   }
 
@@ -47,7 +48,7 @@ exports.createRecipe = (request, response) => {
       description,
       ingredients,
       steps,
-      image_url
+      image_url: imageUrl
     })
     .then((recipeId) => {
       request.session.flash = {
@@ -61,7 +62,7 @@ exports.createRecipe = (request, response) => {
       return response.status(500).render('recipes/new', {
         title: 'Nueva receta',
         error: 'No se pudo guardar la receta.',
-        formData: { title, description, ingredients, steps, image_url }
+        formData: { title, description, ingredients, steps, image_url: imageUrl || '' }
       });
     });
 }
@@ -89,7 +90,7 @@ exports.showEditRecipe = (request, response) => {
           description: recipe.description || '',
           ingredients: recipe.ingredients || '',
           steps: recipe.steps || '',
-          image_url: recipe.image_url || ''
+          filename: recipe.filename || ''
         }
       });
     })
@@ -104,7 +105,7 @@ exports.updateRecipe = (request, response) => {
   const description = (request.body.description || '').trim();
   const ingredients = (request.body.ingredients || '').trim();
   const steps = (request.body.steps || '').trim();
-  const image_url = (request.body.image_url || '').trim();
+  const uploadedImage = request.file?.filename?.trim() || null;
 
   if (Number.isNaN(recipeId) || recipeId <= 0) {
     return response.status(400).render('404', { title: 'Receta invalida' });
@@ -115,17 +116,24 @@ exports.updateRecipe = (request, response) => {
       title: 'Editar receta',
       recipeId,
       error: 'Titulo, ingredientes y pasos son obligatorios.',
-      formData: { title, description, ingredients, steps, image_url }
+      formData: { title, description, ingredients, steps, filename: uploadedImage || '' }
     });
   }
 
   recipeModel
-    .updateRecipe(recipeId, {
-      title,
-      description,
-      ingredients,
-      steps,
-      image_url
+    .getRecipeById(recipeId)
+    .then((recipe) => {
+      if (!recipe) {
+        return null;
+      }
+
+      return recipeModel.updateRecipe(recipeId, {
+        title,
+        description,
+        ingredients,
+        steps,
+        image_url: uploadedImage || recipe.filename || null
+      });
     })
     .then((updated) => {
       if (!updated) {
@@ -144,7 +152,7 @@ exports.updateRecipe = (request, response) => {
         title: 'Editar receta',
         recipeId,
         error: 'No se pudo actualizar la receta.',
-        formData: { title, description, ingredients, steps, image_url }
+        formData: { title, description, ingredients, steps, filename: uploadedImage || '' }
       });
     });
 }
