@@ -60,10 +60,27 @@ exports.login = (request, response) => {
         });
       });
     })
-    .catch(() => {
-      return response.status(401).render('login', {
+    .catch((error) => {
+      const dbConnectionErrors = new Set([
+        'ER_ACCESS_DENIED_ERROR',
+        'ER_BAD_DB_ERROR',
+        'ECONNREFUSED',
+        'ETIMEDOUT'
+      ]);
+
+      if (error && dbConnectionErrors.has(error.code)) {
+        console.error('DB connection error during login:', error);
+        return response.status(500).render('login', {
+          title: 'Iniciar sesion',
+          error: 'No se pudo conectar a la base de datos. Revisa tu archivo .env y la configuracion de MySQL.',
+          formData: { loginValue }
+        });
+      }
+
+      console.error('Unexpected login error:', error);
+      return response.status(500).render('login', {
         title: 'Iniciar sesion',
-        error: 'Credenciales invalidas.',
+        error: 'Error interno al iniciar sesion.',
         formData: { loginValue }
       });
     });
@@ -111,14 +128,22 @@ exports.signup = (request, response) => {
         });
       }
 
-      return userModel.createUser({ username, email, password }).then(() => {
-        request.session.flash = {
-          type: 'success',
-          message: 'Signup completado. Ahora puedes iniciar sesion.'
-        };
+      return userModel.createUser({ username, email, password })
+        .then((newUserId) =>
+          userModel.assignRoleByName(newUserId, 'lector').then((assigned) => {
+            if (!assigned) {
+              throw new Error('Default role "lector" not found');
+            }
+          })
+        )
+        .then(() => {
+          request.session.flash = {
+            type: 'success',
+            message: 'Signup completado. Ahora puedes iniciar sesion.'
+          };
 
-        return response.redirect('/login');
-      });
+          return response.redirect('/login');
+        });
     })
     .catch(() => {
       return response.status(500).render('signup', {

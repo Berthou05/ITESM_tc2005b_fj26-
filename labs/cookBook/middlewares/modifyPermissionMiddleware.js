@@ -5,6 +5,9 @@ module.exports = (request, response, next) => {
         return next();
     }
 
-    request.session.error = 'You do not have permission to modify this resource.';
-    return response.redirect('/login');
+    request.session.flash = {
+        type: 'warning',
+        message: 'No tienes permiso para modificar recetas.'
+    };
+    return response.redirect('/recipes');
 };

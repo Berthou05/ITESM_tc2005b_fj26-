@@ -25,6 +25,20 @@ module.exports = class User {
        });
       })
     };
+
+  static assignRoleByName(userId, roleName = 'lector') {
+    return db.execute(
+      `
+        INSERT INTO user_roles (id_user, id_rol)
+        SELECT ?, id
+        FROM roles
+        WHERE rol = ?
+      `,
+      [userId, roleName]
+    ).then(([result]) => {
+      return result.affectedRows > 0;
+    });
+  }
     
   static validateSignup(username, email) {
     return db.execute(`

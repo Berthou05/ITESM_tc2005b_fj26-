@@ -2,7 +2,7 @@
 
 INSERT INTO users (user_id, username, email, password)
 VALUES  (1, 'alexis', 'alexisberthou05@email.com', '$2a$12$zzL5OsJ30YLphoUaEneti.jElU40Pb.zfLGkIg8gUKvOFKXSs9hOa'),
-        (4, 'chefalexis', 'alexis@unitas.dev', '$2b$12$GjIANgu3PVAmzRGgVAM6Ve46FXSkvUnU4crGPtSlcZGc81qfTIhzG'),
+        (4, 'chefalexis', 'alexis@unitas.dev', '$2b$12$GjIANgu3PVAmzRGgVAM6Ve46FXSkvUnU4crGPtSlcZGc81qfTIhzG');
 
 INSERT INTO roles (id, rol, created_at)
 VALUES  (1, 'admin', '2026-03-10 10:01:18'),
@@ -49,5 +49,5 @@ VALUES  (1, 1, '2026-03-10 10:36:00'),
 
 INSERT INTO user_roles (id_user, id_rol, created_at)
 VALUES  (1, 1, '2026-03-10 10:37:24'),
-        (4, 3, '2026-03-10 10:37:24'),
+        (4, 3, '2026-03-10 10:37:24');
       

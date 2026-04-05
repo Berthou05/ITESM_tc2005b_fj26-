@@ -47,40 +47,23 @@ module.exports = class Recipe {
   }
 
   static createRecipe({ user_id, title, description, ingredients, steps, image_url }) {
-    const sql = `
-      INSERT INTO recipes (user_id, title, description, ingredients, steps, image_url)
-      VALUES (?, ?, ?, ?, ?, ?)
-    `;
-
-    return db
-      .execute(sql, [user_id, title, description, ingredients, steps, image_url || null])
-      .then(([result]) => {
-        return result.insertId;
-      });
+    return db.execute('CALL CreateRecipe(?, ?, ?, ?, ?, ?)',[user_id, title, description, ingredients, steps, image_url || null])
+    .then(([resultSets]) => {
+      return resultSets[0][0].recipe_id;
+    });
   }
 
   static updateRecipe(recipeId, { title, description, ingredients, steps, image_url }) {
-    const sql = `
-      UPDATE recipes
-      SET title = ?, description = ?, ingredients = ?, steps = ?, image_url = ?
-      WHERE recipe_id = ?
-    `;
-
-    return db
-      .execute(sql, [title, description, ingredients, steps, image_url || null, recipeId])
-      .then(([result]) => {
-        return result.affectedRows > 0;
+    return db.execute('CALL UpdateRecipe(?, ?, ?, ?, ?, ?)', [recipeId, title, description, ingredients, steps, image_url || null])
+      .then(([resultSets]) => {
+        return resultSets[0][0].affected_rows > 0;
       });
   }
 
   static deleteRecipe(recipeId) {
-    const sql = `
-      DELETE FROM recipes
-      WHERE recipe_id = ?
-    `;
-
-    return db.execute(sql, [recipeId]).then(([result]) => {
-      return result.affectedRows > 0;
+    return db.execute('CALL DeleteRecipe(?)', [recipeId])
+    .then(([resultSets]) => {
+      return resultSets[0][0].affected_rows > 0;
     });
   }
 };

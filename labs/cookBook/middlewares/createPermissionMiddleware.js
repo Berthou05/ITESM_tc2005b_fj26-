@@ -5,6 +5,9 @@ module.exports = (request, response, next) => {
         return next();
     }
 
-    request.session.error = 'You do not have permission to create recipies.';
-    return response.redirect('/users/login');
+    request.session.flash = {
+        type: 'warning',
+        message: 'No tienes permiso para crear recetas.'
+    };
+    return response.redirect('/recipes');
 };
