@@ -1,93 +1,174 @@
-﻿create table privileges
+-- Rebuild the CookBook schema from scratch.
+-- Run this file when you want a clean database with the current tables, triggers, and procedures.
+-- This script drops the existing app tables, so any current data in recipe_app will be removed.
+
+CREATE DATABASE IF NOT EXISTS recipe_app;
+USE recipe_app;
+
+-- Remove programmable objects first so table drops do not fail because of dependencies.
+DROP TRIGGER IF EXISTS trg_recipes_after_insert;
+DROP TRIGGER IF EXISTS trg_recipes_after_update;
+DROP TRIGGER IF EXISTS trg_recipes_after_delete;
+
+DROP PROCEDURE IF EXISTS CreateUserWithRole;
+DROP PROCEDURE IF EXISTS CreateRecipe;
+DROP PROCEDURE IF EXISTS DeleteRecipe;
+DROP PROCEDURE IF EXISTS UpdateRecipe;
+
+-- Drop child tables before parent tables to respect foreign keys.
+DROP TABLE IF EXISTS recipe_audit;
+DROP TABLE IF EXISTS user_roles;
+DROP TABLE IF EXISTS role_privileges;
+DROP TABLE IF EXISTS recipes;
+DROP TABLE IF EXISTS privileges;
+DROP TABLE IF EXISTS roles;
+DROP TABLE IF EXISTS users;
+
+-- Users are the base identity records for login and recipe ownership.
+CREATE TABLE users
 (
-    id         int auto_increment
-        primary key,
-    privilege  varchar(100)                          not null,
-    created_at timestamp default current_timestamp() not null,
-    constraint uq_privileges_privilege
-        unique (privilege)
+    user_id  INT AUTO_INCREMENT
+        PRIMARY KEY,
+    username VARCHAR(50)  NOT NULL,
+    email    VARCHAR(100) NOT NULL,
+    password VARCHAR(100) NOT NULL,
+    CONSTRAINT uq_users_email
+        UNIQUE (email),
+    CONSTRAINT uq_users_username
+        UNIQUE (username)
 );
 
-create table roles
+-- Roles define coarse-grained access levels such as admin, editor, or lector.
+CREATE TABLE roles
 (
-    id         int auto_increment
-        primary key,
-    rol        varchar(100)                          not null,
-    created_at timestamp default current_timestamp() not null,
-    constraint uq_roles_rol
-        unique (rol)
+    id         INT AUTO_INCREMENT
+        PRIMARY KEY,
+    rol        VARCHAR(100)                          NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP() NOT NULL,
+    CONSTRAINT uq_roles_rol
+        UNIQUE (rol)
 );
 
-create table role_privileges
+-- Privileges are the fine-grained permissions assigned to roles.
+CREATE TABLE privileges
 (
-    id_rol       int                                   not null,
-    id_privilege int                                   not null,
-    created_at   timestamp default current_timestamp() not null,
-    primary key (id_rol, id_privilege),
-    constraint fk_role_privileges_privilege
-        foreign key (id_privilege) references privileges (id)
-            on update cascade on delete cascade,
-    constraint fk_role_privileges_role
-        foreign key (id_rol) references roles (id)
-            on update cascade on delete cascade
+    id         INT AUTO_INCREMENT
+        PRIMARY KEY,
+    privilege  VARCHAR(100)                          NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP() NOT NULL,
+    CONSTRAINT uq_privileges_privilege
+        UNIQUE (privilege)
 );
 
-create index idx_role_privileges_privilege
-    on role_privileges (id_privilege);
-
-create table users
+-- Role privileges map each role to the permissions it grants.
+CREATE TABLE role_privileges
 (
-    user_id  int auto_increment
-        primary key,
-    username varchar(50)  not null,
-    email    varchar(100) not null,
-    password varchar(100) not null,
-    constraint email
-        unique (email),
-    constraint username
-        unique (username)
+    id_rol       INT                                   NOT NULL,
+    id_privilege INT                                   NOT NULL,
+    created_at   TIMESTAMP DEFAULT CURRENT_TIMESTAMP() NOT NULL,
+    PRIMARY KEY (id_rol, id_privilege),
+    CONSTRAINT fk_role_privileges_role
+        FOREIGN KEY (id_rol) REFERENCES roles (id)
+            ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT fk_role_privileges_privilege
+        FOREIGN KEY (id_privilege) REFERENCES privileges (id)
+            ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-create table recipes
+CREATE INDEX idx_role_privileges_privilege
+    ON role_privileges (id_privilege);
+
+-- Recipes belong to a user and hold the main application content.
+CREATE TABLE recipes
 (
-    recipe_id   int auto_increment
-        primary key,
-    user_id     int                                   not null,
-    title       varchar(150)                          not null,
-    description text                                  null,
-    ingredients text                                  not null,
-    steps       text                                  not null,
-    image_url   varchar(255)                          null,
-    created_at  timestamp default current_timestamp() null,
-    constraint `1`
-        foreign key (user_id) references users (user_id)
+    recipe_id   INT AUTO_INCREMENT
+        PRIMARY KEY,
+    user_id     INT                                   NOT NULL,
+    title       VARCHAR(150)                          NOT NULL,
+    description TEXT                                  NULL,
+    ingredients TEXT                                  NOT NULL,
+    steps       TEXT                                  NOT NULL,
+    image_url   VARCHAR(255)                          NULL,
+    created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP() NULL,
+    CONSTRAINT fk_recipes_user
+        FOREIGN KEY (user_id) REFERENCES users (user_id)
 );
 
-create index user_id
-    on recipes (user_id);
+CREATE INDEX idx_recipes_user_id
+    ON recipes (user_id);
 
-create table user_roles
+-- Recipe audit stores snapshots generated by triggers after create, update, and delete events.
+CREATE TABLE recipe_audit
 (
-    id_user    int                                   not null,
-    id_rol     int                                   not null,
-    created_at timestamp default current_timestamp() not null,
-    primary key (id_user, id_rol),
-    constraint fk_user_roles_role
-        foreign key (id_rol) references roles (id)
-            on update cascade on delete cascade,
-    constraint fk_user_roles_user
-        foreign key (id_user) references users (user_id)
-            on update cascade on delete cascade
+    audit_id     INT AUTO_INCREMENT
+        PRIMARY KEY,
+    recipe_id    INT                                   NOT NULL,
+    user_id      INT                                   NOT NULL,
+    action       VARCHAR(20)                           NOT NULL,
+    title        VARCHAR(150)                          NOT NULL,
+    description  TEXT                                  NULL,
+    ingredients  TEXT                                  NOT NULL,
+    steps        TEXT                                  NOT NULL,
+    image_url    VARCHAR(255)                          NULL,
+    changed_at   TIMESTAMP DEFAULT CURRENT_TIMESTAMP() NOT NULL
 );
 
-create index idx_user_roles_rol
-    on user_roles (id_rol);
+CREATE INDEX idx_recipe_audit_recipe
+    ON recipe_audit (recipe_id);
 
-create
-    definer = root@localhost procedure CreateUserWithRole(IN p_username varchar(50), IN p_email varchar(100),
-                                                          IN p_password varchar(100), IN p_role_name varchar(100))
+-- User roles map each user to one or more roles.
+CREATE TABLE user_roles
+(
+    id_user    INT                                   NOT NULL,
+    id_rol     INT                                   NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP() NOT NULL,
+    PRIMARY KEY (id_user, id_rol),
+    CONSTRAINT fk_user_roles_user
+        FOREIGN KEY (id_user) REFERENCES users (user_id)
+            ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT fk_user_roles_role
+        FOREIGN KEY (id_rol) REFERENCES roles (id)
+            ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE INDEX idx_user_roles_rol
+    ON user_roles (id_rol);
+
+-- Audit triggers write recipe snapshots automatically so the app does not need extra logging code.
+DELIMITER $$
+
+CREATE TRIGGER trg_recipes_after_insert
+AFTER INSERT
+ON recipes
+FOR EACH ROW
 BEGIN
-  DECLARE v_user_id int;
+  INSERT INTO recipe_audit (recipe_id, user_id, action, title, description, ingredients, steps, image_url)
+  VALUES (NEW.recipe_id, NEW.user_id, 'created', NEW.title, NEW.description, NEW.ingredients, NEW.steps, NEW.image_url);
+END$$
+
+CREATE TRIGGER trg_recipes_after_update
+AFTER UPDATE
+ON recipes
+FOR EACH ROW
+BEGIN
+  INSERT INTO recipe_audit (recipe_id, user_id, action, title, description, ingredients, steps, image_url)
+  VALUES (NEW.recipe_id, NEW.user_id, 'updated', NEW.title, NEW.description, NEW.ingredients, NEW.steps, NEW.image_url);
+END$$
+
+CREATE TRIGGER trg_recipes_after_delete
+AFTER DELETE
+ON recipes
+FOR EACH ROW
+BEGIN
+  INSERT INTO recipe_audit (recipe_id, user_id, action, title, description, ingredients, steps, image_url)
+  VALUES (OLD.recipe_id, OLD.user_id, 'deleted', OLD.title, OLD.description, OLD.ingredients, OLD.steps, OLD.image_url);
+END$$
+
+-- Signup stays atomic in the database: create the user and assign the default role together.
+CREATE PROCEDURE CreateUserWithRole(IN p_username VARCHAR(50), IN p_email VARCHAR(100),
+                                    IN p_password VARCHAR(100), IN p_role_name VARCHAR(100))
+BEGIN
+  DECLARE v_user_id INT;
 
   START TRANSACTION;
 
@@ -110,30 +191,30 @@ BEGIN
   END IF;
 
   SELECT v_user_id AS user_id;
-END;
+END$$
 
-create
-    definer = root@localhost procedure CreateRecipe(IN p_user_id int, IN p_title varchar(255), IN p_description text,
-                                                    IN p_ingredients text, IN p_steps text, IN p_image_url varchar(255))
+-- Create a recipe and return the new id to the application.
+CREATE PROCEDURE CreateRecipe(IN p_user_id INT, IN p_title VARCHAR(255), IN p_description TEXT,
+                              IN p_ingredients TEXT, IN p_steps TEXT, IN p_image_url VARCHAR(255))
 BEGIN
   INSERT INTO recipes (user_id, title, description, ingredients, steps, image_url)
   VALUES (p_user_id, p_title, p_description, p_ingredients, p_steps, p_image_url);
 
   SELECT LAST_INSERT_ID() AS recipe_id;
-END;
+END$$
 
-create
-    definer = root@localhost procedure DeleteRecipe(IN p_recipe_id int)
+-- Delete a recipe and return how many rows were affected.
+CREATE PROCEDURE DeleteRecipe(IN p_recipe_id INT)
 BEGIN
   DELETE FROM recipes
   WHERE recipe_id = p_recipe_id;
 
   SELECT ROW_COUNT() AS affected_rows;
-END;
+END$$
 
-create
-    definer = root@localhost procedure UpdateRecipe(IN p_recipe_id int, IN p_title varchar(255), IN p_description text,
-                                                    IN p_ingredients text, IN p_steps text, IN p_image_url varchar(255))
+-- Update a recipe and return how many rows were affected.
+CREATE PROCEDURE UpdateRecipe(IN p_recipe_id INT, IN p_title VARCHAR(255), IN p_description TEXT,
+                              IN p_ingredients TEXT, IN p_steps TEXT, IN p_image_url VARCHAR(255))
 BEGIN
   UPDATE recipes
   SET
@@ -145,5 +226,6 @@ BEGIN
   WHERE recipe_id = p_recipe_id;
 
   SELECT ROW_COUNT() AS affected_rows;
-END;
+END$$
 
+DELIMITER ;
