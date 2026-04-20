@@ -11,6 +11,7 @@ const csrfProtection = csrf();
 
 const authRoutes = require('./routes/authRoutes');
 const recipeRoutes = require('./routes/recipeRoutes');
+const db = require('./config/db');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -90,6 +91,16 @@ app.use((req, res) => {
     message: 'La ruta que buscas no existe o no esta disponible.'
   });
 });
+
+// Verify DB connectivity at startup so connection issues are visible before handling requests.
+db.getConnection()
+  .then((connection) => {
+    console.log('DB connection established successfully.');
+    connection.release();
+  })
+  .catch((error) => {
+    console.error('DB connection failed during startup:', error);
+  });
 
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);

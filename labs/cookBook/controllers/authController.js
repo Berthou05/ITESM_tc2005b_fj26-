@@ -20,6 +20,7 @@ exports.login = (request, response) => {
   const password = (request.body.password || '').trim();
 
   if (!loginValue || !password) {
+    console.warn(`Failed login attempt: missing credentials for "${loginValue || 'empty'}".`);
     return response.status(400).render('login', {
       title: 'Iniciar sesion',
       error: 'Completa usuario/correo y password.',
@@ -30,6 +31,7 @@ exports.login = (request, response) => {
   userModel.findLogin(loginValue)
     .then((user) => {
       if (!user) {
+        console.warn(`Failed login attempt: user not found for "${loginValue}".`);
         return response.status(401).render('login', {
           title: 'Iniciar sesion',
           error: 'Credenciales invalidas.',
@@ -39,6 +41,7 @@ exports.login = (request, response) => {
 
       return bcrypt.compare(password, user.password).then((isMatch) => {
         if (!isMatch) {
+          console.warn(`Failed login attempt: invalid password for "${loginValue}".`);
           return response.status(401).render('login', {
             title: 'Iniciar sesion',
             error: 'Credenciales invalidas.',
