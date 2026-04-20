@@ -129,13 +129,6 @@ exports.signup = (request, response) => {
       }
 
       return userModel.createUser({ username, email, password })
-        .then((newUserId) =>
-          userModel.assignRoleByName(newUserId, 'lector').then((assigned) => {
-            if (!assigned) {
-              throw new Error('Default role "lector" not found');
-            }
-          })
-        )
         .then(() => {
           request.session.flash = {
             type: 'success',

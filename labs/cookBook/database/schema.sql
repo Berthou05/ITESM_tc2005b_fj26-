@@ -84,6 +84,35 @@ create index idx_user_roles_rol
     on user_roles (id_rol);
 
 create
+    definer = root@localhost procedure CreateUserWithRole(IN p_username varchar(50), IN p_email varchar(100),
+                                                          IN p_password varchar(100), IN p_role_name varchar(100))
+BEGIN
+  DECLARE v_user_id int;
+
+  START TRANSACTION;
+
+  INSERT INTO users (username, email, password)
+  VALUES (p_username, p_email, p_password);
+
+  SET v_user_id = LAST_INSERT_ID();
+
+  INSERT INTO user_roles (id_user, id_rol)
+  SELECT v_user_id, id
+  FROM roles
+  WHERE rol = p_role_name;
+
+  IF ROW_COUNT() = 0 THEN
+    ROLLBACK;
+    SIGNAL SQLSTATE '45000'
+      SET MESSAGE_TEXT = 'Default role not found';
+  ELSE
+    COMMIT;
+  END IF;
+
+  SELECT v_user_id AS user_id;
+END;
+
+create
     definer = root@localhost procedure CreateRecipe(IN p_user_id int, IN p_title varchar(255), IN p_description text,
                                                     IN p_ingredients text, IN p_steps text, IN p_image_url varchar(255))
 BEGIN

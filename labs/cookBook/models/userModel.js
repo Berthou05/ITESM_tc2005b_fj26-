@@ -16,12 +16,11 @@ module.exports = class User {
 
   static createUser({ username, email, password }) {
     return bcrypt.hash(password, 12).then((hashedPassword) => {
-      return db.execute(`
-        INSERT INTO users (username, email, password)
-        VALUES (?, ?, ?)`,
-        [username, email, hashedPassword]
-      ).then(([result]) => {
-        return result.insertId;
+      // Signup is handled in the procedure so user creation and default role assignment stay together.
+      return db.execute('CALL CreateUserWithRole(?, ?, ?, ?)',
+        [username, email, hashedPassword, 'lector']
+      ).then(([resultSets]) => {
+        return resultSets[0][0].user_id;
        });
       })
     };
