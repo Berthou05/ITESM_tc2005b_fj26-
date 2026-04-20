@@ -276,3 +276,24 @@ Algunas ventajas de RBAC son:
 Algunas desventajas de RBAC son:
 - Puede aumentar la complejidad en la administración de roles y permisos.
 - Requiere un diseño cuidadoso para evitar la creación de roles redundantes o conflictivos.
+
+## Laboratorio 20: Consultas en SQL
+
+Completado en archivo lab20/Lab20.md
+
+## Laboratorio 21: Funciones Agregadas y Sub-consultas 
+
+
+## Laboratorio 22: Subir y bajar archivos
+
+## Laboratorio 23: Stored procedures
+Realizado en cookBook
+
+## Laboratorio 24: AJAX
+Ralizado en proyecto de equipo sistema unitas con commit 92e0214598b38805c82f3d037a4beb73472a7d23 en rama develop
+
+## Laboratorio 25: Transacciones
+
+## Laboratorio 26: Servicios web 
+
+## Laboratorio 28: Triggers
