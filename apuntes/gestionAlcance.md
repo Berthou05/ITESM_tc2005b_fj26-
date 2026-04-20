@@ -1,0 +1,1 @@
+![alt text](imagenes/gestionAlcance.png)

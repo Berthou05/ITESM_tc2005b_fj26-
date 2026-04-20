@@ -1,0 +1,1 @@
+![alt text](imagenes/comunicacion.png)
